@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4130" } },
+                                                                                                                                  
+"features": [
+{ "type": "Feature", "properties": { "ID": 10, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381434, 36.266768 ], [ 120.381434, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 9, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381489, 36.266768 ], [ 120.381489, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 8, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.38138, 36.266768 ], [ 120.38138, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 7, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381321, 36.266768 ], [ 120.381321, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 6, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381214, 36.266768 ], [ 120.381214, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 5, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381095, 36.266768 ], [ 120.381095, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 4, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381149, 36.266768 ], [ 120.381149, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 3, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381268, 36.266768 ], [ 120.381268, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 2, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381035, 36.266768 ], [ 120.381035, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 1, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.380982, 36.266768 ], [ 120.380982, 36.266853 ] ] } }
+]
+}

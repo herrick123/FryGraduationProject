@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="self.projectManage" >
+
+	<!-- 根据项目Id获取项目的技能标签 -->
+	<select id="search_projectManage_projectManageSkill" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 
+			tp.project_skill
+		from tbl_project tp
+		where
+		tp.id = #{id} 
+		
+	</select>
+
+</mapper>

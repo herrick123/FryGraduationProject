@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="self.constant" >
+
+	<!-- 根据一级数据字典的typeCode来查询二级数据字典中符合查询条件的valueCode -->
+	<select id="search_constant_nameAndCode" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.constant.constantVo.ConstantVo">
+		SELECT sys_dict_constant.value_code as valueCode,
+			   sys_dict_constant.value_name as valueName
+		FROM sys_dict_constant,sys_dictionary
+		WHERE 
+			sys_dictionary.type_code = sys_dict_constant.dictionary_code
+			AND sys_dictionary.type_code = #{typeCode}
+			AND sys_dict_constant.value_code in
+			<foreach collection="code" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}   
+	    	</foreach>
+		ORDER BY sys_dict_constant.value_code ASC
+	</select>
+	<!-- 通过二级数据字典的dictionaryCode来查询二级数据字典-->
+	<select id="search_constant_byDictCode" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.constant.entity.ConstantEntity">
+		SELECT sys_dict_constant.value_code as valueCode,
+			   sys_dict_constant.value_name as valueName
+		FROM sys_dict_constant
+		WHERE sys_dict_constant.dictionary_code = #{ dictionaryCode}
+		ORDER BY sys_dict_constant.value_code ASC
+	</select>
+
+</mapper>

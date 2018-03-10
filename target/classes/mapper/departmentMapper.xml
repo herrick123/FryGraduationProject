@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sodb.department" >
+	<!-- 根据ID查询所有子节点-->
+    <select id="findAllChildsByParentId" parameterType="java.lang.String" resultType="java.lang.String" >
+        SELECT DEPARTMENT_ID FROM SYS_DEPARTMENT
+        CONNECT BY PRIOR DEPARTMENT_ID = PARENT_ID
+        START WITH PARENT_ID = #{id,jdbcType=NUMERIC}
+    </select>
+    
+    <update id="updateAllChildTreeCode" parameterType="java.lang.String">
+        UPDATE SYS_DEPARTMENT
+        SET TREE_CODE = #{treeCode}
+        WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID FROM SYS_DEPARTMENT
+        CONNECT BY PRIOR DEPARTMENT_ID = PARENT_ID
+        START WITH PARENT_ID = #{id,jdbcType=NUMERIC})
+        
+        
+    </update>
+
+</mapper>

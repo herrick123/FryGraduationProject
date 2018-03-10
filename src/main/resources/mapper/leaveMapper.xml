@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mengma.leave">
+	<resultMap type="com.mengma.mis.self.sys.leave.vo.LeaveVo"  id="vo"> 
+		<id property="leaveId" column="id"/>
+		<result property="leaveName" column="employee_name"/>
+		<result property="month1" column="jan_time"/>
+		<result property="month2" column="feb_time"/>
+		<result property="month3" column="mar_time"/>
+		<result property="month4" column="spr_time"/>
+		<result property="month5" column="may_time"/>
+		<result property="month6" column="jun_time"/>
+		<result property="month7" column="jul_time"/>
+		<result property="month8" column="aug_time"/>
+		<result property="month9" column="sept_time"/>
+		<result property="month10" column="octo_time"/>
+		<result property="month11" column="nov_time"/>
+		<result property="month12" column="dece_time"/>
+		<result property="monthTotal" column="sumlength"/>
+	</resultMap>
+	<select id="selectExistLeave" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select 
+		count(id)
+		FROM `tab_leave`
+		where
+		name = #{name}
+		and
+		operation="L02"
+		AND
+		(
+			(
+			#{startTime}>=start_time
+			and
+			end_time>=#{startTime}
+			)
+			or
+			(
+			start_time>=#{startTime}
+			and
+			#{endTime}>=start_time
+			)
+		)
+	</select>
+	<!-- 根据ID改变假期状态 -->
+	<select id="changeLeaveStatus" parameterType="java.util.Map">
+		Update tab_leave set operation =#{operation} where id=#{id} 
+	</select> 
+	<select id="searchLeaveTotal" parameterType="java.lang.String" resultMap="vo">
+			SELECT
+				tbl_employee.`employee_name`,
+				jan_time,
+				feb_time,
+				mar_time,
+				apr_time,
+				mar_time,
+				jun_time,
+				jul_time,
+				aug_time,
+				sept_time,
+				octo_time,
+				nov_time,
+				dece_time,
+				sum(time_length) AS sumlength
+			FROM
+				tbl_employee
+			LEFT JOIN tab_leave ON tbl_employee.`employee_name` = tab_leave.`name`
+			AND start_time BETWEEN #{startTime}
+			AND #{endTime}
+			AND operation = 'L02'
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS jan_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 1
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) JAN ON JAN.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS feb_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 2
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) FEB ON FEB.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS mar_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 3
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) MAR ON MAR.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS apr_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 4
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) APR ON APR.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS may_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 5
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) MAY ON MAY.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS jun_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 6
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) JUN ON JUN.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS jul_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 7
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) JUL ON JUL.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS aug_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 8
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) AUG ON AUG.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS sept_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 9
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) SEPT ON SEPT.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS octo_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 10
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) OCTO ON OCTO.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS nov_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 11
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) NOV ON NOV.`name` = tbl_employee.`employee_name`
+			LEFT JOIN (
+				SELECT
+					`name`,
+					sum(time_length) AS dece_time
+				FROM
+					tab_leave
+				WHERE
+					MONTH (start_time) = 12
+				AND start_time BETWEEN #{startTime}
+				AND #{endTime}
+				AND operation = 'L02'
+				GROUP BY
+					`name`
+			) DECE ON DECE.`name` = tbl_employee.`employee_name`
+			
+			GROUP BY
+				tbl_employee.employee_name,
+				jan_time,
+				feb_time,
+				mar_time,
+				apr_time,
+				may_time,
+				jun_time,
+				jul_time,
+				aug_time,
+				sept_time,
+				octo_time,
+				nov_time,
+				decE_time
+	</select>
+</mapper>

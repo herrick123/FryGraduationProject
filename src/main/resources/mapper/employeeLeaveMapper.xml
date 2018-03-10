@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="self.leave" >
+	
+    <!-- 通过项目名称查询详情-->
+    <select id="search_leave_employee_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.leave.vo.EmployeeLeaveVo" >
+       SELECT
+			tl.type AS type,
+			tl.start_time AS startTime,
+			tl.end_time AS endTime,
+			tl.reason AS reason,
+			tl.operation AS operation,
+			tl.time_length AS length,
+			te.employee_code AS employeeCode,
+			te.employee_name AS employeeName,
+			te.id AS employeeId,
+			tp.id AS projectId,
+			tp.start_time AS proStartTime,
+			tp.end_time AS proEndTime
+		FROM
+			tab_leave tl
+		LEFT JOIN tbl_employee te ON tl.employee_id = te.id
+		LEFT JOIN tbl_project_employee tpe ON tpe.employee_id=te.id
+		LEFT JOIN tbl_project tp ON tp.id = tpe.project_id
+		WHERE
+			1 = 1
+		AND tl.start_time &gt;= tp.start_time
+		AND tl.end_time &lt;= tp.end_time
+		AND te.id = #{employeeId}
+		order by tl.start_time ASC
+    </select>
+</mapper>

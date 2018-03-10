@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="self.projectEmp" >
+	
+    <!-- 通过项目名称查询详情-->
+    <select id="search_empName_projectName_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.projectEmp.entity.ProjectEmployee" >
+       SELECT
+			t1.id AS id,
+			t1.project_id AS projectId,
+			t1.employee_id AS employeeId,
+			t1.`status` AS `status`,
+			t1.judge AS judge,
+			t1.judge_time AS judgeTime,
+			t1.add_time AS addTime,
+			t1.end_time AS endTime,
+			t1.skill AS skill,
+			t3.employee_name AS employeeName
+		FROM
+			tbl_project_employee t1
+		LEFT JOIN tbl_employee t3 ON t1.employee_id=t3.id
+		where
+		  1=1
+		<if test = "projectId != null and projectId!=''">
+			and t1.project_id =#{projectId}
+		</if>
+    </select>
+    <update id="update_judge_info" parameterType="java.util.Map" >
+	    UPDATE tbl_project_employee
+			SET judge = #{judge},
+			 	judge_time = #{judgeTime},
+			 	skill = #{skill}
+		WHERE
+			employee_id = #{employeeId}
+			AND project_id = #{projectId}
+			AND id =#{id}
+    </update>
+</mapper>

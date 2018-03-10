@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mengma.projectManageEmployee" >
+    <!-- 通过项目名称查询详情-->
+    <select id="search_projectName_projectManageEntity_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.project.entity.ProjectManageEntity" >
+        	SELECT
+				tbl_project.project_name as projectName,
+				tbl_project.project_code as projectCode,
+				tbl_project.start_time as startTime,
+				tbl_project.end_time as endTime,
+				tbl_project.type as type,
+				d.employeeName,
+				tbl_project.project_skill as projectSkill,
+				tbl_project .id,
+				d.tpeId,
+				d.teId
+			FROM
+				tbl_project 
+			LEFT JOIN (
+				SELECT
+					tbl_employee.id as teId,
+					tbl_employee.employee_name as employeeName,
+					tbl_project_employee.employee_id as tpeEmoloyeeId,
+					tbl_project_employee.project_id as tpeId
+				FROM
+					tbl_employee ,
+					tbl_project_employee 
+				WHERE
+					tbl_employee.id = tbl_project_employee.employee_id
+			) d ON tbl_project.id = d.tpeId
+			<if test = "projectName != null">
+				and tp.project_name like concat(concat('%',#{projectName}),'%')
+			</if>
+    </select>
+
+<!-- 通过项目名称查询详情-->
+    <select id="search_projectNames_projectManageEntity_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.project.entity.ProjectManageEntity" >
+        	SELECT
+				tp.project_name as projectName,
+				tp.project_code as projectCode,
+				tp.project_leader as projectLeader,
+				tp.start_time as startTime,
+				tp.end_time as endTime,
+				tp.project_skill as projectSkill,
+				tp.type as type,
+				tp.owner as owner,
+			    tp.staff as staff
+			FROM
+				tbl_project tp
+			<if test = "projectName != null">
+				and tp.project_name like concat(concat('%',#{projectName}),'%')
+			</if>
+    </select>
+    
+    
+    
+    
+</mapper>

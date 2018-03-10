@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sodb.role.module" >
+
+	<!-- 根据模块id删除关联 -->
+    <delete id="delete_role_module_mapper_by_module_id" >
+        DELETE FROM sys_module_role_rel
+        WHERE module_id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>
+    </delete>
+    
+    <!-- 根据角色id删除关联 -->
+    <delete id="delete_role_module_mapper_by_role" parameterType="java.lang.String" >
+        DELETE FROM sys_module_role_rel
+        WHERE role_id in (#{id})
+    </delete>
+    
+    <!-- 根据role_Module_mapping 中 roleid 查询模块名-->
+    <select id="search_all_moduleName_info" parameterType="java.lang.String" resultType="java.lang.String" >
+        SELECT MODULE_NAME 
+        FROM sys_module
+        WHERE id in(
+        	SELECT module_id FROM sys_module_role_rel where ROLE_ID = #{id}
+        )
+    </select>
+    
+    <!-- 根据role_Module_mapping 中 roleid 查询模块id-->
+    <select id="search_all_moduleid_info" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT module_id FROM sys_module_role_rel where ROLE_ID = #{id}
+    </select>
+    
+    <!-- 删除角色与模块的关联 -->
+    <delete id="deleteRoleModuleMapper" parameterType="java.util.Map" >
+    	DELETE FROM sys_module_role_rel
+    	WHERE ROLE_ID = #{roleId} AND module_id IN
+    	<foreach collection="moduleId" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+    	</foreach>
+    </delete>
+    
+    <!-- 根据roleId查询模块组 -->
+    <select id="search_all_moduleGroups_info" parameterType="java.lang.String" resultType="java.lang.String" >
+        SELECT module_group from (
+        	SELECT distinct  module_group,group_index
+        	from sys_module mo  
+	        WHERE mo.id in (
+	        	SELECT module_id from sys_module_role_rel where role_id =  #{roleId}
+	        ) ORDER BY group_index
+	    ) temp
+    </select>
+    
+     <!-- 根据roleId和模块组查询模块组 -->
+    <select id="search_all_module_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.module.entity.ModuleEntity" >
+        	SELECT 
+        	id as id,
+        	module_group as moduleGroup,
+        	module_name as moduleName,
+        	module_url as moduleUrl,
+        	remark,
+        	display_index as displayIndex
+        	from sys_module mo  
+	        WHERE mo.id in (
+	        	SELECT module_id from sys_module_role_rel where role_id =  #{roleId}
+	        ) and mo.module_group = #{group } ORDER BY display_index
+    </select>
+  
+</mapper>

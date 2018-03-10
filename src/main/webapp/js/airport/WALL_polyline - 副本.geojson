@@ -1,0 +1,26 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4130" } },
+                                                                                                                                  
+"features": [
+{ "type": "Feature", "properties": { "ID": 10, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381434, 36.266768 ], [ 120.381434, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 9, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381489, 36.266768 ], [ 120.381489, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 8, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.38138, 36.266768 ], [ 120.38138, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 7, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381321, 36.266768 ], [ 120.381321, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 6, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381214, 36.266768 ], [ 120.381214, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 5, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381095, 36.266768 ], [ 120.381095, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 4, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381149, 36.266768 ], [ 120.381149, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 3, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381268, 36.266768 ], [ 120.381268, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 2, "HEIGHT": 1.200000, "KIND": "GLASSWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381035, 36.266768 ], [ 120.381035, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 1, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.380982, 36.266768 ], [ 120.380982, 36.266853 ] ] } },
+{ "type": "Feature", "properties": { "ID": 100, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.380982, 36.266784 ], [ 120.381021, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 101, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381035, 36.266784 ], [ 120.38108, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 102, "HEIGHT": 1.200000, "KIND": "" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381095, 36.266784 ], [ 120.381135, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 103, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381149, 36.266784 ], [ 120.381197, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 104, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381214, 36.266784 ], [ 120.381252, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 105, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381268, 36.266784 ], [ 120.381306, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 106, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381321, 36.266784 ], [ 120.381361, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 107, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.38138, 36.266784 ], [ 120.38142, 36.266784 ] ] } },
+{ "type": "Feature", "properties": { "ID": 108, "HEIGHT": 1.200000, "KIND": "PARTITIONWALL" }, "geometry": { "type": "LineString", "coordinates": [ [ 120.381434, 36.266784 ], [ 120.381477, 36.266784 ] ] } }
+]
+}

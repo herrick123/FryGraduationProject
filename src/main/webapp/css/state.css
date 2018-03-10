@@ -1,0 +1,76 @@
+body {
+    background: #fff none repeat scroll 0 0;
+}
+ol, ul, li {
+    list-style: outside none none;
+}
+
+#sys-step1 li {
+    color: #888;
+    float: left;
+    position: relative;
+    text-align: center;
+}
+#sys-step1 li.step1 {
+    text-align: left;
+    width: 120px;
+}
+#sys-step1 li.step1 p {
+    margin-left: -0.8em;
+}
+#sys-step1 li.step2 p {
+    text-align: left;
+}
+#sys-step1 li.step3 p {
+    text-align: left;
+}
+#sys-step1 li.step4 p {
+    text-align: right;
+}
+
+#sys-step1 li.step2 {
+    width: 185px;
+}
+#sys-step1 li.step3 {
+    width: 185px;
+}
+#sys-step1 li.step4 {
+	text-align:right;
+    width: 160px;
+}
+.auto_border {
+    background: #e6e6e6 none repeat scroll 0 0;
+    height: 7px;
+    position: absolute;
+    top: 9px;
+    width: 100%;
+    z-index: -1;
+}
+#sys-step1 li i {
+    background: #ccc none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 7px;
+    text-align: center;
+    width: 24px;
+}
+
+#sys-step1 li.step4 i,p{
+	margin-left: 60px;
+}
+
+#sys-step1 li.active {
+    color: #2d456b;
+}
+#sys-step1 li.active i, #sys-step1 li.active .auto_border {
+    background: #2d456b none repeat scroll 0 0;
+}
+.modal-content{z-index: 1;}
+#sys-step1 ul{
+	margin:0px auto;
+	width:900px;
+}
