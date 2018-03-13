@@ -49,7 +49,7 @@ li{float:left;list-style:none;}
 		<!--导航开始-->
 		<div id="dh" style="margin-top: 21px">
 			<div class="dhz">
-			    <a href="">首页</a>
+			    <a href="<%=path %>/pages/index.jsp">首页</a>
 				<a href="">箱包货源</a>
 				<a href="">网供列表</a>
 				<a href="">代发服务</a>

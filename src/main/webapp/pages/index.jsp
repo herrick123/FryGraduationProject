@@ -1,189 +1,427 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="">
-    <meta name="author" content="">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <%@include file="/pages/inc/header.jsp"%>
 <%
-	String pageId = (String) request.getParameter("pageId");
+	String pageId = (String)request.getParameter("pageId");
 %>
-<link rel="stylesheet" type="text/css"
-	href="<%=path%>/css/index/left-nav.css" />
-<link rel="stylesheet" type="text/css"
-	href="<%=path%>/css/index/font-awesome.min.css" />
-<script type="text/javascript" src="<%=path%>/js/index/app.js"></script>
-<script type="text/javascript" src="<%=path%>/js/index/util.js"></script>
 </head>
+
 <body class="sodb_index_body">
-	<div id="sodb-home-top" class="sodb_head">
-		<!-- <div class="sodb-menu-icon">&nbsp;</div>  -->
-		<div class="sodb-menu-top-right-area">
-		<span class="sodb-menu-top-right-area-user">【${loginUser.employeeName}】，您好！</span>
+<diV id="sodb-home-top" class="sodb_head sodb-index-home-bt">
+	<div class="sodb-menu-icon">&nbsp;</div>
+	<div class="sodb-menu-context">
+		<div class="sodb-menu-context-list" left-menu="menu-sys">
+			<div class="sodb-menu-context-top sodb-menu-context-top-sys">&nbsp;</div>
+			<div class="sodb-menu-context-bottom">应急救援管理</div>
+		</div>
+	</div>
+	<div class="sodb-menu-top-right-area">
+		<span class="sodb-menu-top-right-area-user">管理员，您好！</span>
 		<span id="exitSys" class="sodb-menu-top-right-area-exit">退出</span>
 	</div>
-	</div>
-	<aside id="left-panel" class="icon-not" > 
-		<nav>
-			<ul class="ms-yahei" id="leftNav">
-				<c:if test="${loginUser.role eq 'S0001'}">
-				<li class="sodb-left-menu">
-					<a id="sys" style=" padding-left: 5px;" class="first-list" onclick="javascript:switchFrame(this);" menu-url="<%=path%>/user/manager"><i class="fa fa-lg fa-fw fa-table"></i> 
-					<span class="menu-item-parent">首页</span></a>
-				</li>
-				</c:if>
-				<c:if test="${loginUser.role eq 'S0002'}">
-					<a id="sys" style=" padding-left: 5px;" class="first-list" onclick="javascript:switchFrame(this);" menu-url="<%=path%>/user/employee"><i class="fa fa-lg fa-fw fa-table"></i> 
-					<span class="menu-item-parent">首页</span></a>
-				</c:if>
+</diV>
+<div id="sodb-index-area" class="sodb-index-home" style="display: none"> 
+	<%@include file="/pages/home.jsp"%>
+</div>
+<div id="sodb-context-area" class="row" style="display:block">
+	<div class="col-md-2">
+		<div class="f-aside">
+			<div id="menu-comp" class="sodb-menu-area">
+	           	<div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/securityMonitoring/pilot/pilotcockpit_list.jsp">
+	               	<div class="f-menu-item f-menu-u">
+	                   	<span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+	                   	<span class="context">安全管控驾驶舱</span>
+	               	</div>
+	           	</div>       
+            </div>        
+          	<div id="menu-sys" class="sodb-menu-area">
+          		<div class="f-menu">
+          			 <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/maintainPlan.jsp">
+	            	<div class="f-menu-title" >
+	                	<span class="f-title">应急救援预案管理</span>
+	                	
+	            	</div>
+	            	</div>
+	            	 <%--   <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/maintainPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div> --%>
+		            	<%--    <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/preceptList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援方案配置</span>
+		                </div>
+		            </div> --%>
+	          		<%-- <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div> --%>
+		           <%--     <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/planList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">预案模板管理</span>
+		                </div>
+		                
+		            </div> --%>
+		        </div>
+		        <div class="f-menu">
+		        
+	            	<div class="f-menu-title">
+	                	<span class="f-title">检查单管理</span>
+	                	<span class="f-mark"></span>
+	            	</div>
+	            		<div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/checkList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">检查单管理列表</span>
+		                </div>
+		            </div>
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/checkRecord.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">已发布检查单列表</span>
+		                </div>
+		            </div>
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/checkRecordList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">检查单记录列表</span>
+		                </div>
+		            </div>
+		           <%--    <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/addArticle.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">测试</span>
+		                </div>
+		            </div> --%>
+		        </div>
+					<div class="f-menu">
+					   <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/emergencyIntegrate/emergencyEventManage/emergencyEventManage.jsp">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">应急救援指挥协调</span>
+	                	
+	            	</div>
+	            	</div>
+	          		<%--  <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div>  --%>
+		       <%--      <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/emergencyIntegrate/emergencyEventManage/emergencyEventManage.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救事件管理</span>
+		                </div>
+		            </div> --%>
+		        </div>
+		          <div class="f-menu">
+		           <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/sandTable/sandTable.jsp">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">应急救援演练</span>
+	                	
+	            	</div>
+	            	</div>
+	          		<%--  <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div>  --%>
+		          <%--   <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/sandTable/sandTable.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">电子沙盘</span>
+		                </div>
+		            </div> --%>
+		        </div>
 				
-				<c:forEach items="${modules }" var="g" varStatus="status">
-				<li class="sodb-left-menu">
-					<a id="sys" style=" padding-left: 5px;"><i class="fa fa-lg fa-fw fa-table"></i> 
-					<span class="menu-item-parent">${g.key }</span></a>
-					<ul>
-						<c:forEach items="${g.value }" var="m">
-							<li><a onclick="javascript:switchFrame(this);" menu-url=<c:url value='${m.moduleUrl}' />>${m.moduleName}</a></li>
-			           	</c:forEach>
-		           	</ul>
-				</li>
-		        </c:forEach>
-		     </ul>
-		</nav> 
-		<span class="minifyme"> 
-		<i class="fa fa-arrow-circle-left hit"></i>
-		</span> 
-	</aside>
-	<div id="main" role="main" style="overflow-x: hidden;background-color: #dfdede;position:absolute;top:100px;width:100%;height:828px;">
-		<iframe id="mainFrame" name="mainFrame" frameborder="0" style="width:100%;min-height:760px; max-height:780px;" src="#"></iframe>
+		        <div class="f-menu">
+		        <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/assessmentList.jsp">
+		        	<div class="f-menu-title">
+	                	<span class="f-title">应急救援评估管理</span>
+	                	
+	            	</div>
+	            	</div>
+	            	<%-- <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/assessmentList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援评估管理</span>
+		                </div>
+		            </div> --%>
+		        </div>
+		        <div class="f-menu">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">应急救援培训管理</span>
+	                	<span class="f-mark"></span>
+	            	</div>
+	          		<%--  <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div>  --%>
+		             <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/organization.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">机构管理</span>
+		                </div>
+		            </div>
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/cultivate.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援培训方案管理</span>
+		                </div>
+		            </div>
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/plan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援培训计划管理</span>
+		                </div>
+		            </div>
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/planCheck.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援培训计划管理（管理员）</span>
+		                </div>
+		            </div>
+		             <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-plancultivate/cultivateSummaryList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援培训总结管理</span>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="f-menu">
+		        	<div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre- knowledge/knowledge.jsp">
+		        	<div class="f-menu-title">
+	                	<span class="f-title">应急知识库管理</span>
+	                	
+	            	</div>
+	            	</div>
+	          <%--   	<div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre- knowledge/knowledge.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急知识库管理</span>
+		                </div>
+		            </div> --%>
+		        </div>
+		        
+		         <div class="f-menu">
+		         <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/resourceManage/resourceList.jsp">
+		        	<div class="f-menu-title">
+	                	<span class="f-title">应急救援资源管理</span>
+	                	
+	            	</div>
+	            	</div>
+	            <%-- 	<div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/resourceManage/resourceList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援资源管理</span>
+		                </div>
+		            </div> --%>
+		        </div>
+		        <div class="f-menu">
+		        <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-personnel/personnel.jsp">
+		        	<div class="f-menu-title">
+	                	<span class="f-title">应急人员管理</span>
+	                	
+	            	</div>
+	            	</div>
+	            	<%-- <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-personnel/personnel.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急人员管理</span>
+		                </div>
+		            </div> --%>
+		        </div>
+			<%-- 	<div class="f-menu">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">应急救援指挥协调</span>
+	                	<span class="f-mark"></span>
+	            	</div>
+	          		 <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div> 
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/emergencyIntegrate/emergencyEventManage/emergencyEventManage.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援事件处置</span>
+		                </div>
+		            </div>
+		        </div> --%>
+		        
+		      <%--   <div class="f-menu">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">应急救援演练</span>
+	                	<span class="f-mark"></span>
+	            	</div>
+	          		 <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div> 
+		            <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/sandTable/sandTable.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">电子沙盘</span>
+		                </div>
+		            </div>
+		        </div> --%>
+		         <div class="f-menu">
+		              <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-statisticalQuery/statisticalList.jsp">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">统计查询</span>
+	                	
+	            	</div>
+	            	</div>
+	          		<%--  <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div>  --%>
+		         <%--    <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/pre-statisticalQuery/statisticalList.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">统计</span>
+		                </div>
+		            </div> --%>
+		        </div>
+		         <div class="f-menu">
+		           <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/treeSafeguard.jsp">
+	            	<div class="f-menu-title">
+	                	<span class="f-title">组织结构</span>
+	                	
+	            	</div>
+	            	</div>
+	          		<%--  <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/contingencyPlan.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">应急救援预案管理</span>
+		                </div>
+		            </div>  --%>
+		      <%--       <div class="f-menu-list" onclick="javascript:switchFrame(this);" menu-url="<%=path %>/pages/Pre-PlanManageMent/treeSafeguard.jsp">
+		                <div class="f-menu-item">
+		                    <span class="f-mark-icon"><img src="<%=path %>/img/menu/security_cockpit.png" alt=""></span>
+		                    <span class="context">树型维护</span>
+		                </div>
+		            </div> --%>
+		        </div>
+          	</div>
+    	</div>
 	</div>
+	<div class="col-md-10" style="background-color: #dfdede;padding:0px;">
+		<iframe id="mainFrame" name="mainFrame" frameborder="0" style="width:100%;min-height: 800px;" src="#"></iframe>
+	</div>
+</div>
 </body>
-<style type="text/css">
-	a{
-		 cursor:pointer;
-	}
-    .modal-header{
-        cursor: move;
-        padding:8px;
-        background : #fafafa;
-    }
-    .modal-body{
-        padding-bottom:5px;
-    }
-    em.invalid{
-        display:block;
-        color:#A90329;
-        font-style: normal;
-    }
-    input.required {
-        /* 	background : url(img/input_bg.png) no-repeat scroll; */
-        background-position:100% 0;
-    }
-    .selected-tr td{
-        /*background :red;*/
-    }
-    /*.table-striped>tbody>tr:nth-child(odd)>td{background-color:#f9f9f9}*/
-    .modal-header .close{
-        font-size:28px;
-    }
-    .smart-form .input{
-        font:13px/16px 'Open Sans', Helvetica, Arial, sans-serif;
-    }
-    .select2-drop .clearfix .col-sm-3{
-        width : 100%;
-    }
-    .object-select{
-        height:32px;
-    }
-    .select2-results{
-        padding : 3px 0px 4px;
-    }
-    .form-menu .btn{
-        padding:5px 15px;
-        margin:1px 0px;
-    }
-    .tab-form-menu{
-        height:40px;
-    }
-    .tab-form-menu a{
-        padding:5px 10px;margin:5px 1px;
-    }
-    .right-side-bar{
-        border:1px solid red;
-        position:absolute;
-        right:0px;
-        top:100px;
-        width:800px;
-        height:600px;
-    }
-    .change-markup{
-        color:red;
-        border-bottom: 1px dashed red;
-    }
-    .ui-dialog{
-        border-radius : 0px;
-    }
-    .ui-widget-header,.ui-dialog-title{
-        font-weight:100 !important;
-    }
-    .dropzone{
-        min-height: 180px;
-    }
-
-    nav > li > ul > li::before{
-        width: 20px;
-    }
-</style>
-
 <script type="text/javascript">
-	$(function() {
-		$("body").css("overflow-x","hidden");
-		var height = document.body.clientHeight - 100;
-		var height_frame = document.body.clientHeight;
-		$("#main").css("min-height",height + "px");
-		$("#mainFrame").css("min-height",height_frame + "px");
-	})
-	
-	window.onresize = function(){
-		if($("body").hasClass("minified")){
-			 $('#mainFrame').css("width","98%");
-		    }else{
-		    	var width = window.innerWidth - 340;
-		    	$('#mainFrame').css("width",width+"px");
-		    }
-	}
-	
-	setTimeout(function() {
-			$("#index").addClass('active');
-			$("#sys").trigger(
-					"click");
-			
-		}, "100");
+$(function(){
+    initMenu();
+    setIFrameHeight();
+})
 
-	function switchFrame(obj) {
-		var url = $(obj).attr('menu-url');
-		$("#mainFrame").attr("src", url);
-		$('nav li.active').removeClass("active");
-		$(obj).parent().addClass("active");	
-	}
-	
-	
-	
-	$("#exitSys").click(function() {
-		window.location.href = "/StudentMIS";
-	})
-	
-	
-	$("a").click(function() {
-		$(this).next().children(":first").children(":first").trigger(
-		"click");
-	})
-	
+<%-- function initMenu(){
+	$("#sodb-index-area").hide();
+	$("#sodb-context-area").show();
+    $(".f-aside").on('click',".f-menu-title",function(){
+        $(this).parent().siblings().removeClass("active");
+        $(this).parent().toggleClass("active");
+    })
+    
+    if("real" == "<%=pageId%>"){
+    	realbackurl();
+    }
+    /* setTimeout(function(){
+		$(".f-aside").find("div[class='sodb-menu-area']:first").show();
+		$(".f-aside").find("div[class='f-menu-list']:first").addClass('f-menu-click-background');
+    },"500"); */
+} --%>
+
+/* function setIFrameHeight(){
+	$("#mainFrame").load(function(){
+		$(this).height(0);
+		var mainheight = $(this).contents().height() + 30 ;
+		$(this).height(mainheight);
+	});
+} */
+
+$(".sodb-menu-context-list").click(function(){
+    $(this).siblings().removeClass("sodb-menu-bk");
+    $(this).addClass('sodb-menu-bk');
+    $(".f-menu").removeClass("active");
+	$(".f-menu-list").each(function () {
+        $(this).removeClass('f-menu-click-background');
+    });
+    var leftMenu = $(this).attr('left-menu');
+    if(leftMenu == 'index-area'){
+    	$("#sodb-index-area").show();
+    	$("#sodb-context-area").hide();
+    	$("#sodb-home-top").addClass("sodb-index-home-bt");
+    }else{
+    	$("#sodb-home-top").removeClass("sodb-index-home-bt");
+    	$("#sodb-index-area").hide();
+    	$("#sodb-context-area").show();
+        $(".sodb-menu-area").each(function () {
+            $(this).show();
+        });
+        $("#" + leftMenu).show();
+
+    	$("#" + leftMenu).find("div[class='f-menu-list']:first").trigger("click");
+    }
+})
+
+/* function switchFrame(obj){
+	$(".f-menu-list").each(function () {
+        $(this).removeClass('f-menu-click-background');
+    });
+	$(obj).addClass('f-menu-click-background');
+	var url = $(obj).attr('menu-url');
+	$("#mainFrame").attr("src", url);
+	setIFrameHeight();
+} */
+$("#exitSys").click(function(){
+	window.location.href = "/sodb";
+})
+
+/* function realbackurl(){
+	$("#sodb-index-area").hide();
+	$("#sodb-context-area").show();
+
+    $(".f-aside").on('click',".f-menu-title",function(){
+        $(this).parent().siblings().removeClass("active");
+        $(this).parent().toggleClass("active");
+    })
+    
+	$(".sodb-menu-context-list").each(function () {
+        $(this).removeClass('sodb-menu-bk');
+    });
+	$("#menu_comp_list").addClass('sodb-menu-bk');
+	$("#menu_comp_list").trigger("click");
+
+    $(".f-aside").on('click',".f-menu-title",function(){
+        $(this).parent().siblings().removeClass("active");
+        $(this).parent().toggleClass("active");
+    })
+    
+	$(".f-menu-list").each(function () {
+        $(this).removeClass('f-menu-click-background');
+    });
+	$("#menu-real-page").addClass('f-menu-click-background');
+
+	$("#menu-real-page").trigger("click");
+} */
 </script>
-
-
 </html>
