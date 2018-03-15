@@ -70,11 +70,11 @@
     </bean>
     
     <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.mengma.mis.self.**.dao"/>
+        <property name="basePackage" value="com.self.**.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="properties">
             <value>
-                mappers=com.mengma.mis.core.base.BaseMapper
+                mappers=com.core.base.BaseMapper
             </value>
         </property>
     </bean>

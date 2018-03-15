@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mengma.projectManager" >
-	<resultMap type = "com.mengma.mis.self.project.vo.projectManagerVo" id = "project">
+	<resultMap type = "com.self.project.vo.projectManagerVo" id = "project">
 			<id property = "id" column = "id" />
 			<result property = "employeeCode" column = "employeeCode"/>
 			<result property = "employeeName" column = "employeeName"/>
@@ -16,7 +16,7 @@
 			<result property = "employeeId" column = "employeeId" />
 		</resultMap>
     <!-- 通过项目名称查询详情-->
-    <select id="search_projectName_projectManagerVo_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.project.vo.projectManagerVo" >
+    <select id="search_projectName_projectManagerVo_info" parameterType="java.util.Map" resultType="com.self.project.vo.projectManagerVo" >
         SELECT DISTINCT
 			tl.id as id,
 			te.employee_name as employeeName,

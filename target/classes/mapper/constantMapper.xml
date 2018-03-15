@@ -3,7 +3,7 @@
 <mapper namespace="self.constant" >
 
 	<!-- 根据一级数据字典的typeCode来查询二级数据字典中符合查询条件的valueCode -->
-	<select id="search_constant_nameAndCode" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.constant.constantVo.ConstantVo">
+	<select id="search_constant_nameAndCode" parameterType="java.util.Map" resultType="com.self.sys.constant.constantVo.ConstantVo">
 		SELECT sys_dict_constant.value_code as valueCode,
 			   sys_dict_constant.value_name as valueName
 		FROM sys_dict_constant,sys_dictionary
@@ -17,7 +17,7 @@
 		ORDER BY sys_dict_constant.value_code ASC
 	</select>
 	<!-- 通过二级数据字典的dictionaryCode来查询二级数据字典-->
-	<select id="search_constant_byDictCode" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.constant.entity.ConstantEntity">
+	<select id="search_constant_byDictCode" parameterType="java.util.Map" resultType="com.self.sys.constant.entity.ConstantEntity">
 		SELECT sys_dict_constant.value_code as valueCode,
 			   sys_dict_constant.value_name as valueName
 		FROM sys_dict_constant

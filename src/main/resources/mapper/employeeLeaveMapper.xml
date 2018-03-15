@@ -3,7 +3,7 @@
 <mapper namespace="self.leave" >
 	
     <!-- 通过项目名称查询详情-->
-    <select id="search_leave_employee_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.leave.vo.EmployeeLeaveVo" >
+    <select id="search_leave_employee_info" parameterType="java.util.Map" resultType="com.self.sys.leave.vo.EmployeeLeaveVo" >
        SELECT
 			tl.type AS type,
 			tl.start_time AS startTime,

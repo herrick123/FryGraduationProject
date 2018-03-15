@@ -3,7 +3,7 @@
 <mapper namespace="self.projectEmp" >
 	
     <!-- 通过项目名称查询详情-->
-    <select id="search_empName_projectName_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.projectEmp.entity.ProjectEmployee" >
+    <select id="search_empName_projectName_info" parameterType="java.util.Map" resultType="com.self.projectEmp.entity.ProjectEmployee" >
        SELECT
 			t1.id AS id,
 			t1.project_id AS projectId,

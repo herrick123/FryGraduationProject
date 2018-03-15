@@ -3,7 +3,7 @@
 <mapper namespace="self.employee" >
 
 	<!-- 根据员工表的ID与文件表的上传时间来获取文件名和上传时间 -->
-	<select id="search_file_nameAndTime" parameterType="java.util.Map" resultType="com.mengma.mis.self.employee.employeeVo.EmployeeVo">
+	<select id="search_file_nameAndTime" parameterType="java.util.Map" resultType="com.self.employee.employeeVo.EmployeeVo">
 		SELECT 
 			tf.upload_time as uploadTime,
 			tf.file_name as fileName,
