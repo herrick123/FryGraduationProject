@@ -1,6 +1,7 @@
 package com.self.commodity.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.core.constant.GlobalCodeConstant;
 import com.core.util.MisLog;
+import com.core.util.Page;
+import com.github.pagehelper.PageInfo;
+import com.self.area.entity.AreaEntity;
 import com.self.commodity.entity.CommodityEntity;
 import com.self.commodity.service.CommodityService;
 
@@ -32,17 +38,49 @@ import com.self.commodity.service.CommodityService;
 @RequestMapping("/commodity")
 public class CommodityController {
 	private static final Logger log = LoggerFactory.getLogger(CommodityEntity.class);
+	private static String COMMODITY_LIST_PAGE = "/commodity/commodityList";//商品列表页面
 	private static String AREA_LIST_PAGE = "/aass";//首页
 	@Autowired
 	private CommodityService commodityService;
 	
+	/**
+	 * 展示商品列表数据
+	 * @return
+	 */
+	@RequestMapping(value="/page")
+	public String CommodityPage(){
+		return COMMODITY_LIST_PAGE;
+	}
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping(value="/pageList")
+	public String findCommodityList(HttpServletRequest request , Model model,String gridPager) {
+		MisLog.info(log,"查询商品列表分页数据");
+		JSONObject json = JSONObject.parseObject(gridPager);
+		JSONObject commodityjson = json.getJSONObject("parameters");
+		MisLog.info(log, json.toJSONString());
+		Page<CommodityEntity> page =  JSONObject.toJavaObject(json,Page.class);
+		CommodityEntity commodityEntity = JSONObject.toJavaObject(commodityjson, CommodityEntity.class);
+		List<CommodityEntity> commodityList = this.commodityService.getCommodityList(commodityEntity, page);
+		PageInfo<CommodityEntity> pageInfo = new PageInfo<CommodityEntity>(commodityList);
+		page = new Page<CommodityEntity>(pageInfo);
+		String result = JSONObject.toJSONString(page);
+		MisLog.info(log,result);
+		return result;
+	}
+	
+	
+	/**
+	 * 新增
+	 * @return
+	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveCommodity(Model model , CommodityEntity commodityEntity,@RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) {
 
 		MisLog.info(log,"新增分区数据");
 		String fileName;//获取文件名加后缀
 		try {
-			String basePath = "d://ss/";
+			String basePath = "D://workspace-FryGradutionProject/FryGradutionProject/src/main/webapp/img/firstPicture/";
 			File upFile = new File(basePath);
 			if(!upFile.isDirectory()){//判断文件夹是否存在 不存在创建
 				upFile.mkdirs();
@@ -54,16 +92,36 @@ public class CommodityController {
 	        	//存储的路径
 	            String fileF = fileName.substring(fileName.lastIndexOf("."), fileName.length());//文件后缀
 	            fileName=new Date().getTime()+"_"+new Random().nextInt(1000)+fileF;//新的文件名
+	            String basePaths = "/img/firstPicture/";
 	            String picturePath = basePath + fileName;
-	            commodityEntity.setProductPicture(picturePath);
+	            String picturePaths = basePaths + fileName;
+	            commodityEntity.setProductPicture(picturePaths);
 	            file.transferTo(new File(picturePath)); 
+
 	        }
-			
 		} catch (Exception e) {
 			MisLog.error(log, "录入员工失败",e);
 		}
 		commodityService.saveCommodityZip(commodityEntity);
 		return AREA_LIST_PAGE ;
+	}
+	/**
+	 * 逻辑删除产品
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/deleteCommodity",method = RequestMethod.POST)
+	public String deleteCommodity(String[] uuids) {
+		MisLog.info(log, "下架产品");
+		JSONObject json = JSONObject.parseObject("{}");
+		try {
+			commodityService.deleteCommodity(uuids);
+			json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
+		} catch (Exception e) {
+			MisLog.error(log, e.getMessage());
+			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
+		}
+		return json.toJSONString();
 	}
 	/**
 	 * 文件异步上传DEMO
@@ -147,6 +205,54 @@ public class CommodityController {
 		}
 		return json.toJSONString();
 	}
-	
+	/**
+     * 显示图片
+     *
+     * @param url
+     * @param request
+     * @param response
+     * @return
+     */
+
+    @RequestMapping(value = "/viewSignatureImage")
+    @ResponseBody
+    public String viewSignatureImage(String imageURL, HttpServletRequest request, HttpServletResponse response) {
+
+        if (imageURL == null || imageURL.equals(""))
+            return null;
+        ServletOutputStream out = null;
+        FileInputStream in = null;
+        try {
+
+            in = new FileInputStream(imageURL);
+            response.setContentType("image/*");
+            out = response.getOutputStream();
+            int i = 0;
+            byte[] buffer = new byte[4096];
+            while ((i = in.read(buffer)) != -1) {
+                out.write(buffer, 0, i);
+            }
+            out.flush();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    } 
 
 }

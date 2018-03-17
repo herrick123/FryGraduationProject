@@ -8,5 +8,5 @@
 	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false"/>
 	<!--加载可执行的任务-->
 
-  	<!-- <bean id="loadTask" class="com.mengma.mis.self.sys.quartz.loadTask.loadTask" init-method="initTask" /> -->
+  	<!-- <bean id="loadTask" class="com.self.sys.quartz.loadTask.loadTask" init-method="initTask" /> -->
 </beans>

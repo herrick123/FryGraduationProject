@@ -52,7 +52,7 @@
     </select>
     
      <!-- 根据roleId和模块组查询模块组 -->
-    <select id="search_all_module_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.sys.module.entity.ModuleEntity" >
+    <select id="search_all_module_info" parameterType="java.util.Map" resultType="com.self.sys.module.entity.ModuleEntity" >
         	SELECT 
         	id as id,
         	module_group as moduleGroup,

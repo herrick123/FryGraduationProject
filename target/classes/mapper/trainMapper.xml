@@ -3,7 +3,7 @@
 <mapper namespace="self.training" >
 	
     <!-- 通过项目名称查询详情-->
-    <select id="search_areaName_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.training.entity.TrainingEntity" >
+    <select id="search_areaName_info" parameterType="java.util.Map" resultType="com.self.training.entity.TrainingEntity" >
         SELECT
         	t1.id AS id,
 			t1.train_issue AS issue,

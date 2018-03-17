@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="self.workCalendar" >
 	
-    <select id="search_tast_project_info" parameterType="java.util.Map" resultType="com.mengma.mis.self.workCalendar.entity.WorkCalendar" >
+    <select id="search_tast_project_info" parameterType="java.util.Map" resultType="com.self.workCalendar.entity.WorkCalendar" >
        SELECT
 			tept.id AS id,
 			tept.tast AS tast,

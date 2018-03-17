@@ -5,10 +5,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss = "modal">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+					<h4 class="modal-title" id="myModalLabel">确认下架</h4>
 				</div>
 				<div class="modal-body" style="text-align: center;">
-					该删除是不可恢复的，你确认要删除吗？
+					你是否确认要下架所选商品吗？
 				</div>
 				<div class="modal-footer">
 					<div style="text-align: center;">
@@ -25,11 +25,11 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss = "modal">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+					<h4 class="modal-title" id="myModalLabel">确认下架</h4>
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<input type="hidden" id="modalId">
-					该删除是不可恢复的，你确认要删除吗？
+					你是否确认要下架所选商品吗？
 				</div>
 				<div class="modal-footer">
 					<div style="text-align: center;">
@@ -46,7 +46,7 @@
 		if(msg != undefined){
 			$(".modal-body").html(msg);
 		}else{
-			$(".modal-body").html("该删除是不可恢复的，你确认要删除吗？");
+			$(".modal-body").html("你是否确认要下架所选商品吗？");
 		}
 		$("#delOneModel").modal();
 		deleteId = id;
