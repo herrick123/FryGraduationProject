@@ -13,13 +13,18 @@ public interface CommodityService  {
 	 * **/
 	 public Integer saveCommodityZip(CommodityEntity commodityEntity);
 
-	Integer findCommodityEntityByParams(Map<String, String> params, Map<String, String> notIn);
+	public Integer findCommodityEntityByParams(Map<String, String> params, Map<String, String> notIn);
 
-	Integer findCommodityEntityByParams(Map<String, String> params);
+	public Integer findCommodityEntityByParams(Map<String, String> params);
 
 	List<CommodityEntity> getCommodityList(CommodityEntity commodityEntity, Page<CommodityEntity> page);
 
-	Integer deleteCommodity(String[] ids);
+	public Integer deleteCommodity(String[] ids);
+	public Integer deletesCommodity(String[] ids);
+
+	public Integer updataCommodity(CommodityEntity commodity);
+
+	public CommodityEntity findCommodityEntityInfo(String uuid);
 	
 
 }

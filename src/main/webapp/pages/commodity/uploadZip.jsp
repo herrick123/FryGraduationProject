@@ -72,7 +72,7 @@
 											<label class="col-md-4 control-label">上传压缩包<span
 												class="required">* </span></label>
 												<div class="col-md-4">
-												   <input type="file" name="fileTest[]" id="fileTest" multiple style="width: 300px;padding: 4px;"  />
+												   <input type="file" name="fileTest" id="fileTest" multiple style="width: 300px;padding: 4px;"  />
 												    <input type="hidden" name="uploadCompression" id="prjDoc" />
 											        当前选择的文件列表
 											        <span class="file-temp">
@@ -109,8 +109,67 @@
 														<input type="text" class="form-control"  id="commodityNumber" name="commodityNumber" placeholder="请输出产品货号">
 													</div>
 										</div>
-									<!-- 每次点击对数据进行修改回显，如果没有值的话显示“暂时没有配置流程” -->
-							
+										<div class="form-group">
+											<label class="col-md-4 control-label">质地<span
+												class="required">* </span></label>
+												<div class="col-md-4">
+													<select  class="form-control" name="place">
+														<option>-----请选择质地-----</option>
+														<option>合金</option>
+														<option>丝绸</option>
+														<option>狐狸毛</option>
+														<option>貂毛</option>
+														<option>羊皮</option>
+														<option>鹿皮</option>
+														<option>碳纤维</option>
+														<option>人造革</option>
+													</select>
+												</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-4 control-label">大小<span
+												class="required">* </span></label>
+												<div class="col-md-4">
+													<select  class="form-control" name="size">
+														<option>-----请选择大小-----</option>
+														<option>迷你</option>
+														<option>小</option>
+														<option>中</option>
+														<option>大</option>
+													</select>
+												</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-4 control-label">闭合方式<span
+												class="required">* </span></label>
+												<div class="col-md-4">
+													<select  class="form-control" name="closedWay">
+														<option>-----请选择闭合方式-----</option>
+														<option>磁扣</option>
+														<option>锁扣</option>
+														<option>拉链</option>
+														<option>搭扣</option>
+														<option>魔术贴</option>
+														<option>其他</option>
+													</select>
+												</div>
+										</div>
+											<div class="form-group">
+											<label class="col-md-4 control-label">流行元素<span
+												class="required">* </span></label>
+												<div class="col-md-4">
+													<select  class="form-control" name="popular">
+														<option>-----请选择流行元素-----</option>
+														<option>单珠</option>
+														<option>流苏</option>
+														<option>字母</option>
+														<option>绣花</option>
+														<option>格子</option>
+														<option>压花</option>
+														<option>拼接</option>
+													</select>
+												</div>
+										</div>
 										<div class="form-group" style="margin-left: 19%">
 											<label class="col-md-2 control-label" style="width: 17%">零售价
 												<span class="required">* </span></label>
@@ -120,13 +179,6 @@
 										</div>
 										<div class="form-group">
 											
-										</div>
-										<div class="form-group">
-											<label class="col-md-4 control-label">尺寸
-												<span class="required">* </span></label>
-													<div class="col-md-4">
-														<input type="text"  name="size" class="form-control" placeholder="例如：中.22等" valid="r"	 validTitle="必填项" validInfoArea="show_size_area">
-													</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-4 control-label">颜色
@@ -216,22 +268,6 @@ $(function () {
                         min: 0,
                         max: 5,
                         message: '商品名称长度必须在1到5位之间'
-                    }
-                }
-            },
-            size:{
-                validators: {
-                    notEmpty: {
-                        message: '尺寸不能为空'
-                    },
-                    stringLength: {
-                        min: 1,
-                        max: 50,
-                        message: '尺寸必须在1到50位之间'
-                    },
-                    regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '尺寸只能输数字'
                     }
                 }
             },
