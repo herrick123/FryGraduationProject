@@ -4,14 +4,14 @@
 <html>
 <head>
 <%@ include file="/pages/inc/header.jsp"%>
-		<title>凡客</title>
-		<meta name="" content=""/>
-		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/css/index.css" />
-		<link type="text/css" href="<%=path%>/css/base.css" rel="stylesheet" /> 
-		<script src="jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="<%=path%>/js/index.js" type="text/javascript" charset="utf-8"></script>
-		<style type="text/css">
+<title>凡客</title>
+<meta name="" content=""/>
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/css/index.css" />
+<link type="text/css" href="<%=path%>/css/base.css" rel="stylesheet" /> 
+<script src="jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
 li{float:left;list-style:none;}
 </style>
 </head>

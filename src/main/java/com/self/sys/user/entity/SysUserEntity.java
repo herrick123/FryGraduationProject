@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name="sys_user")
-public class UserEntity {
+public class SysUserEntity {
 	/**
 	 * 用户ID
 	 */

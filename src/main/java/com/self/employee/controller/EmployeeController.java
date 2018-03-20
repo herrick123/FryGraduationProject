@@ -42,8 +42,8 @@ import com.self.sys.constant.entity.ConstantEntity;
 import com.self.sys.constant.service.ConstantService;
 import com.self.sys.role.entity.RoleEntity;
 import com.self.sys.role.service.RoleService;
-import com.self.sys.user.entity.UserEntity;
-import com.self.sys.user.service.UserService;
+import com.self.sys.user.entity.SysUserEntity;
+import com.self.sys.user.service.SysUserService;
 import com.self.training.entity.TrainingEntity;
 import com.self.training.service.TrainingService;
 
@@ -77,7 +77,7 @@ public class EmployeeController {
 	@Autowired
 	private ConstantService constantService;
 	@Autowired
-	private UserService userService;
+	private SysUserService userService;
 
 	/**
 	 * 展示员工列表数据
@@ -248,7 +248,7 @@ public class EmployeeController {
 			result = employeeService.addEmployee(employee);
 			
 			//添加一条员工记录对应的要添加一条user表的记录
-			UserEntity user = new UserEntity();
+			SysUserEntity user = new SysUserEntity();
 			user.setUserAccount(employee.getUserAccount());
 			user.setUserName(employee.getEmployeeName());
 			user.setUserPass(employee.getUserPass());
@@ -356,7 +356,7 @@ public class EmployeeController {
 			//修改user表中对应员工的状态
 			EmployeeEntity employeeEntity = employeeService.findEmployeeById(ids);
 			String userAccount = employeeEntity.getUserAccount();
-			UserEntity user = userService.login(userAccount);
+			SysUserEntity user = userService.login(userAccount);
 			userService.deleteOneUserEntity(user.getUserId());
 			json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
 		} catch (Exception e) {

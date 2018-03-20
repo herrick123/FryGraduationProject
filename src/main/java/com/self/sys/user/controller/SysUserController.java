@@ -44,9 +44,9 @@ import com.self.sys.tree.entity.DirectoryTree;
 import com.self.sys.tree.entity.Tree;
 import com.self.sys.tree.entity.TreeState;
 import com.self.sys.tree.service.DirectoryTreeService;
-import com.self.sys.user.dao.UserMapper;
-import com.self.sys.user.entity.UserEntity;
-import com.self.sys.user.service.UserService;
+import com.self.sys.user.dao.SysUserMapper;
+import com.self.sys.user.entity.SysUserEntity;
+import com.self.sys.user.service.SysUserService;
 import com.self.sys.user.userVo.UserVo;
 
 import tk.mybatis.mapper.entity.Example;
@@ -57,9 +57,9 @@ import tk.mybatis.mapper.entity.Example;
  * @version 1.0
  */
 @Controller
-@RequestMapping("/user")
-public class UserController {
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+@RequestMapping("/sys/user")
+public class SysUserController {
+	private static final Logger log = LoggerFactory.getLogger(SysUserController.class);
 	private static String USER_LIST_PAGE = "/sys/user/userList";//用户列表页面
 	private static String USER_ADD_PAGE = "/sys/user/adduser";//新增用户页面
 	private static String USER_EDIT_PAGE = "/sys/user/edituser";//编辑用户页面
@@ -69,7 +69,7 @@ public class UserController {
 	private static String EMPLOYEE_HOMEPAGE = "/employeeIndex";//员工首页
 	
 	@Autowired
-	private UserService userService;
+	private SysUserService sysUserService;
 	@Autowired
 	private RoleService roleService;
 	@Autowired
@@ -77,7 +77,7 @@ public class UserController {
 	@Autowired
 	private DirectoryTreeService directoryTreeService;
 	@Autowired
-    private UserMapper userMapper;
+    private SysUserMapper userMapper;
 	@Autowired
 	private DirectoryTreeMapper directoryTreeMapper;
 	@Autowired
@@ -132,9 +132,9 @@ public class UserController {
 		JSONObject userJson = json.getJSONObject("parameters");
 		MisLog.info(log, json.toJSONString());
 		
-		Page<UserEntity> page = JSONObject.toJavaObject(json,Page.class);
-		UserEntity user = JSONObject.toJavaObject(userJson, UserEntity.class);
-		List<UserEntity> userList = new ArrayList<UserEntity>();
+		Page<SysUserEntity> page = JSONObject.toJavaObject(json,Page.class);
+		SysUserEntity user = JSONObject.toJavaObject(userJson, SysUserEntity.class);
+		List<SysUserEntity> userList = new ArrayList<SysUserEntity>();
 		if(user.getDepartmentId() != "" && user.getDepartmentId() != null) {
 		    MisLog.info(log, "user.getDepartmentId()"+user.getDepartmentId());
 		    //查询所有字部门ID
@@ -143,14 +143,14 @@ public class UserController {
             if(childsId.size()==0) {
                 childsId.add(user.getDepartmentId());
             }
-            Example example = new Example(UserEntity.class);
+            Example example = new Example(SysUserEntity.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andIn("departmentId", childsId);
             userList = userMapper.selectByCondition(example);
 		}else { 
-		   userList = this.userService.findUserPage(user, page);
+		   userList = this.sysUserService.findUserPage(user, page);
 		}
-		for(UserEntity oneUser:userList){
+		for(SysUserEntity oneUser:userList){
 			String roleName = "";
 			if(oneUser.getRole() != null){
 				String[] roleID = oneUser.getRole().split("/");
@@ -162,8 +162,8 @@ public class UserController {
 			}
 			oneUser.setRole(roleName);
 		}
-		PageInfo<UserEntity> pageInfo = new PageInfo<UserEntity>(userList);
-		page = new Page<UserEntity>(pageInfo);
+		PageInfo<SysUserEntity> pageInfo = new PageInfo<SysUserEntity>(userList);
+		page = new Page<SysUserEntity>(pageInfo);
 		String result = JSONObject.toJSONString(page);
 		MisLog.info(log, result);
 		return result;
@@ -179,7 +179,7 @@ public class UserController {
 		List<RoleEntity> roles = null;
 		try {
 			roles = roleService.listRole();
-			String department = userService.selectDepartmentName(departmentId);
+			String department = sysUserService.selectDepartmentName(departmentId);
 			model.addAttribute("departmentName",department);	
 			model.addAttribute("departmentId",departmentId);
 					
@@ -202,7 +202,7 @@ public class UserController {
 		Map<String,String> params = new HashMap<String,String>();
 		if(userAccount != null && userId == null){
 			params.put("userAccount",userAccount);
-			if(userService.findUserEntityByParams(params)>0){
+			if(sysUserService.findUserEntityByParams(params)>0){
 				json.put("returncode",GlobalCodeConstant.BASE_ERROR_CODE);
 				json.put("info", "登录名已存在");
 			}
@@ -210,7 +210,7 @@ public class UserController {
 		if(userName != null && userId == null){
 			params.clear();
 			params.put("userName",userName);
-			if(userService.findUserEntityByParams(params)>0){
+			if(sysUserService.findUserEntityByParams(params)>0){
 				json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
 				json.put("info", "用户名已存在");
 			}
@@ -220,7 +220,7 @@ public class UserController {
 			params.put("userAccount",userAccount);
 			Map<String, String> notEqual = new HashMap<>();
 			notEqual.put("userId", userId);
-			if(userService.findUserEntityByAnd(params, notEqual)>0){
+			if(sysUserService.findUserEntityByAnd(params, notEqual)>0){
 				json.put("returncode",GlobalCodeConstant.BASE_ERROR_CODE);
 				json.put("info", "更改后的登录名已存在");
 			}
@@ -230,7 +230,7 @@ public class UserController {
 			params.put("userName",userName);
 			Map<String, String> notEqual = new HashMap<>();
 			notEqual.put("userId", userId);
-			if(userService.findUserEntityByAnd(params, notEqual)>0){
+			if(sysUserService.findUserEntityByAnd(params, notEqual)>0){
 				json.put("returncode",GlobalCodeConstant.BASE_ERROR_CODE);
 				json.put("info", "更改后的用户名已存在");
 			}
@@ -243,13 +243,13 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/save",method = RequestMethod.POST)
-	public String saveUserEntity(Model model,UserEntity user){
+	public String saveUserEntity(Model model,SysUserEntity user){
 		
 		MisLog.info(log, "存储新增用户！");
 		try {
 		    MisLog.debug(log, "******"+user.getDepartmentId());
 			user.setUserPass(MD5Util.string2MD5(GlobalCodeConstant.DEFAULT_PASSWORD));
-			userService.saveUserEntity(user);
+			sysUserService.saveUserEntity(user);
 		
 		} catch (SaveException e) {
 			MisLog.error(log, e.getMessage());
@@ -267,7 +267,7 @@ public class UserController {
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	public String deleteUserEntity(String[] ids){
 		JSONObject json = JSONObject.parseObject("{}");
-			Boolean result = userService.deleteUserEntity(ids);
+			Boolean result = sysUserService.deleteUserEntity(ids);
 			if (result) {
 				json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
 			}else {
@@ -289,7 +289,7 @@ public class UserController {
 		List<RoleEntity> roles = null;
 		try {
 			roles = roleService.listRole();
-			departmentIdList = userService.listDepartment();
+			departmentIdList = sysUserService.listDepartment();
 		} catch (Exception e) {
 			MisLog.error(log,e.getMessage());
 		}
@@ -299,7 +299,7 @@ public class UserController {
 	      List<DirectoryTree> departmentList = directoryTreeMapper.selectByCondition(example);
 	      model.addAttribute("departments",departmentList);
 	      model.addAttribute("roles",roles);
-		UserEntity user = userService.findUserEntityInfo(id);
+		SysUserEntity user = sysUserService.findUserEntityInfo(id);
 		model.addAttribute("user", user);
 		return USER_EDIT_PAGE;
 	}
@@ -310,7 +310,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/update",method = RequestMethod.POST)
-	public String updateUser(Model model,UserEntity user){
+	public String updateUser(Model model,SysUserEntity user){
 		
 		MisLog.info(log, "修改用户信息!");
 		try {
@@ -319,7 +319,7 @@ public class UserController {
 			}else {
 				user.setUserPass(null);
 			}
-			userService.updateUserEntity(user);
+			sysUserService.updateUserEntity(user);
 		} catch (UpdateException e) {
 			MisLog.error(log, e.getMessage());
 			model.addAttribute("error", "更新用户出错！");
@@ -337,7 +337,7 @@ public class UserController {
 	public String resetUserEntity(String[] ids){
 		JSONObject json = JSONObject.parseObject("{}");
 		try{
-			userService.resetUserEntity(ids);
+			sysUserService.resetUserEntity(ids);
 			json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
 		}catch(UpdateException e){
 			MisLog.error(log, e.getMessage());
@@ -357,10 +357,10 @@ public class UserController {
 		JSONObject json = JSONObject.parseObject(gridPager);
 		JSONObject userJson = json.getJSONObject("parameters");
 		MisLog.info(log, json.toJSONString());
-		Page<UserEntity> page = JSONObject.toJavaObject(json, Page.class);
-		UserEntity users = JSONObject.toJavaObject(userJson, UserEntity.class);
+		Page<SysUserEntity> page = JSONObject.toJavaObject(json, Page.class);
+		SysUserEntity users = JSONObject.toJavaObject(userJson, SysUserEntity.class);
 		MisLog.info(log, users.getDepartmentId());
-		List<UserEntity> userList = this.userService.findUserPage(users, page);
+		List<SysUserEntity> userList = this.sysUserService.findUserPage(users, page);
 		
 		/*for(UserEntity oneUser:userList){
 			String roleName = "";
@@ -376,8 +376,8 @@ public class UserController {
 		
 		
 	    //把查到所有的角色信息返回
-	    PageInfo<UserEntity> pageInfo = new PageInfo<UserEntity>(userList);
-		page = new Page<UserEntity>(pageInfo);
+	    PageInfo<SysUserEntity> pageInfo = new PageInfo<SysUserEntity>(userList);
+		page = new Page<SysUserEntity>(pageInfo);
 	    return JSON.toJSONString(page);
 	}
 	
@@ -423,7 +423,7 @@ public class UserController {
     @RequestMapping(value="/login",method = RequestMethod.POST)
 	public String login(HttpServletRequest request,String userAccount,String userPass,Model model){
     	try {
-			UserEntity userEntity = userService.login(userAccount);
+			SysUserEntity userEntity = sysUserService.login(userAccount);
 			String MdPassword = MD5Util.string2MD5(userPass);
 			if(userEntity.getUserStatus() == 1){
 				//密码错误或者登录名不存在
@@ -530,7 +530,7 @@ public class UserController {
 		List<RoleEntity> roles = null;
 		try {
 			roles = roleService.listRole();
-			departmentIdList = userService.listDepartment();
+			departmentIdList = sysUserService.listDepartment();
 		} catch (Exception e) {
 			MisLog.error(log,e.getMessage());
 		}
@@ -540,7 +540,7 @@ public class UserController {
 	      List<DirectoryTree> departmentList = directoryTreeMapper.selectByCondition(example);
 	      model.addAttribute("departments",departmentList);
 	      model.addAttribute("roles",roles);
-		UserEntity user = userService.findUserEntityInfo(id);
+		SysUserEntity user = sysUserService.findUserEntityInfo(id);
 		model.addAttribute("user", user);
 		return USER_DET_PAGE;
 	}

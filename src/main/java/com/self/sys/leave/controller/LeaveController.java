@@ -25,8 +25,8 @@ import com.self.sys.leave.entity.LeaveEntity;
 import com.self.sys.leave.service.LeaveService;
 import com.self.sys.leave.vo.LeaveVo;
 import com.self.sys.module.controller.ModuleController;
-import com.self.sys.user.entity.UserEntity;
-import com.self.sys.user.service.UserService;
+import com.self.sys.user.entity.SysUserEntity;
+import com.self.sys.user.service.SysUserService;
 
 
 
@@ -51,7 +51,7 @@ private static final Logger log = LoggerFactory.getLogger(ModuleController.class
 	@Autowired
 	private LeaveService leaveService;
 	@Autowired
-	private UserService userService;
+	private SysUserService userService;
 	
 	/**
 	 * 展示请假列表数据
@@ -136,7 +136,7 @@ private static final Logger log = LoggerFactory.getLogger(ModuleController.class
 			JSONObject leaveJson = json.getJSONObject("parameters");
 			MisLog.info(log, json.toJSONString());
 			LeaveEntity leave = JSONObject.toJavaObject(leaveJson, LeaveEntity.class);
-			UserEntity user = (UserEntity) request.getSession().getAttribute("loginUser");
+			SysUserEntity user = (SysUserEntity) request.getSession().getAttribute("loginUser");
 			/*如果是员工，只能查看自己的请假列表*/
 			if("S0002".equals(user.getRole())){
 				leave.setName(user.getUserName());

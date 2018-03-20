@@ -15,9 +15,9 @@ import com.self.sys.role.service.RoleService;
 import com.self.sys.tree.dao.DirectoryTreeMapper;
 import com.self.sys.tree.entity.DirectoryTree;
 import com.self.sys.tree.service.DirectoryTreeService;
-import com.self.sys.user.dao.UserMapper;
-import com.self.sys.user.entity.UserEntity;
-import com.self.sys.user.service.UserService;
+import com.self.sys.user.dao.SysUserMapper;
+import com.self.sys.user.entity.SysUserEntity;
+import com.self.sys.user.service.SysUserService;
 
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,10 +31,10 @@ import java.util.*;
  * @author 黄青山
  *
  */
-@Service("userService")
-public class UserServiceImpl implements UserService {
+@Service("sysUserService")
+public class SysUserServiceImpl implements SysUserService {
 	@Autowired
-	private UserMapper usermapper;
+	private SysUserMapper usermapper;
 	@Autowired
     private DirectoryTreeService directoryTreeService;
 	@Autowired
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	 * 分页查询用户
 	 */
 	@Override
-	public List<UserEntity> findUserPage(UserEntity user, Page<UserEntity> page) {
+	public List<SysUserEntity> findUserPage(SysUserEntity user, Page<SysUserEntity> page) {
 		Integer level = Integer.valueOf(1);
 		if(user.getDepartmentId() != null){
 			DirectoryTree tree = directoryTreeMapper.selectByPrimaryKey(user.getDepartmentId());
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	 * 保存用户
 	 */
 	@Override
-	public Integer saveUserEntity(UserEntity user) {
+	public Integer saveUserEntity(SysUserEntity user) {
 		String id = UuidUtil.getUuid36();
 		Date date = new Date();
 		long currentTime = date.getTime();
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 	 * 更新用户
 	 */
 	@Override
-	public Integer updateUserEntity(UserEntity user) {
+	public Integer updateUserEntity(SysUserEntity user) {
 		Date date = new Date();
 		long currentTime = date.getTime();
 		user.setUpdateTime(new Date(currentTime));
@@ -121,14 +121,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean deleteUserEntity(String[] ids) {
 		List<String> params = MisUtil.arrayTransList(ids);
-		Example example = new Example(UserEntity.class);
+		Example example = new Example(SysUserEntity.class);
 		example.selectProperties("role");
 		example.isDistinct();//去重（重复角色）
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andIn("userId",params );//去重之后，通过用户ID找到这些用户的角色ID
-		List<UserEntity> roleList = usermapper.selectByCondition(example);
+		List<SysUserEntity> roleList = usermapper.selectByCondition(example);
 		List<String> roleIds = new ArrayList<String>();
-		for(UserEntity userEntity : roleList){
+		for(SysUserEntity userEntity : roleList){
 			roleIds.add(userEntity.getRole());//将角色ID放入集合当中
 		}
 		Boolean flag = roleService.selectRoleCode(roleIds);
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public Integer deleteOneUserEntity(String id) {
-		UserEntity user = new UserEntity();
+		SysUserEntity user = new SysUserEntity();
 		user.setUserId(id);
 		//设置为删除
 		user.setUserStatus(1);
@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
 	 * 通过用户id查询用户信息
 	 */
 	@Override
-	public UserEntity findUserEntityInfo(String id) {
+	public SysUserEntity findUserEntityInfo(String id) {
 		return usermapper.selectByPrimaryKey(id);
 	}
 	
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public Integer findUserEntityByParams(Map<String, String> params) {
-		Example example = new Example(UserEntity.class);
+		Example example = new Example(SysUserEntity.class);
 		Example.Criteria criteria = example.createCriteria();
 		for (String key:params.keySet()) {
 			criteria.andEqualTo(key, params.get(key));
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public Integer findUserEntityByAnd(Map<String, String> params, Map<String, String> notEqual) {
-		Example example = new Example(UserEntity.class);
+		Example example = new Example(SysUserEntity.class);
 		Example.Criteria criteria = example.createCriteria();
 		for (String key:params.keySet()) {
 			criteria.andEqualTo(key, params.get(key));
@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public Integer findUserEntityByOr(String[] arr,Map<String, String> notEqual) {
-		Example example = new Example(UserEntity.class);
+		Example example = new Example(SysUserEntity.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andCondition("("+arr[0].toString()+"= '"+arr[1].toString()+"' or "+arr[2].toString()+" = '"+arr[3].toString()+"')");
 		for (String key:notEqual.keySet()) {
@@ -246,7 +246,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void resetUserEntity(String[] ids) {
 		for(String id : ids){
-			UserEntity userEntity = new UserEntity();
+			SysUserEntity userEntity = new SysUserEntity();
 			userEntity.setUserId(id);
 			userEntity.setUserPass(MD5Util.string2MD5(GlobalCodeConstant.DEFAULT_PASSWORD));
 			try {
@@ -283,11 +283,11 @@ public class UserServiceImpl implements UserService {
 	 * 用户登录
 	 */
     @Override
-    public UserEntity login(String userAccount) {
-        Example example = new Example(UserEntity.class);
+    public SysUserEntity login(String userAccount) {
+        Example example = new Example(SysUserEntity.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userAccount",userAccount);
-        UserEntity userEntity = null;
+        SysUserEntity userEntity = null;
         try {
         	userEntity = usermapper.selectByCondition(example).get(0);
 		} catch (Exception e) {
@@ -302,10 +302,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
 	public boolean findIsHaveUser(List<String> idList) {
-		Example example = new Example(UserEntity.class);
+		Example example = new Example(SysUserEntity.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andIn("departmentId", idList);
-		List<UserEntity> userList = usermapper.selectByCondition(example);
+		List<SysUserEntity> userList = usermapper.selectByCondition(example);
 		if (userList != null && !userList.isEmpty()) {
 			return true;
 		} else {

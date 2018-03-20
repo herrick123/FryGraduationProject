@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.core.constant.GlobalCodeConstant;
 import com.core.util.MisLog;
 import com.core.util.TimeUtil;
-import com.self.sys.user.entity.UserEntity;
+import com.self.sys.user.entity.SysUserEntity;
 import com.self.sys.user.userVo.UserVo;
 import com.self.workCalendar.entity.WorkCalendar;
 import com.self.workCalendar.service.WorkCalendarService;

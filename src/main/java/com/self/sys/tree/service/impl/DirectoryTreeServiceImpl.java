@@ -9,7 +9,7 @@ import com.self.sys.tree.entity.DirectoryTree;
 import com.self.sys.tree.entity.Tree;
 import com.self.sys.tree.entity.TreeState;
 import com.self.sys.tree.service.DirectoryTreeService;
-import com.self.sys.user.service.UserService;
+import com.self.sys.user.service.SysUserService;
 
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,7 +32,7 @@ public class DirectoryTreeServiceImpl implements DirectoryTreeService {
 	@Autowired
 	private DirectoryTreeMapper directoryTreeMapper;
 	@Autowired
-	private UserService userService;
+	private SysUserService userService;
 	@Autowired
     SqlSessionTemplate sqlSessionTemplate;
 	

@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import com.self.sys.log.entity.LogEntity;
-import com.self.sys.user.entity.UserEntity;
+import com.self.sys.user.entity.SysUserEntity;
 import com.self.sys.user.userVo.UserVo;
 
 /**
