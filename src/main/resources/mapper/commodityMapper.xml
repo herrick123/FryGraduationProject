@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commodityEntity" >
+<select id="search_commodityName_commodityEntity_info" parameterType="java.util.Map" resultType="com.self.commodity.entity.CommodityEntity" >
+	SELECT
+		a.uuid as uuid,
+		a.product_picture as productPicture,
+		a.commodity_name as commodityName,
+		a.release_time as releaseTime,
+		a.price as price,
+		a.user_id as userId,
+		a.staus as staus
+		
+	FROM
+		commodity_table a
+	WHERE
+		1=1
+		AND a.user_id = #{userId}
+		<if test = "commodityName != null" >
+		AND a.commodity_name like concat (concat ('%', #{commodityName}),'%') 
+		</if > 
+			ORDER BY staus DESC
+</select>
+</mapper>

@@ -78,6 +78,17 @@ public class CommodityEntity {
 	 * 产品藐视
 	 */
 	private String commodityDecribe;
+	/**
+	 * 所属用户id
+	 */
+	private String userId;
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getUuid() {
 		return uuid;
 	}
