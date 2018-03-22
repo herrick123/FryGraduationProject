@@ -55,7 +55,11 @@
 						class="btn btn-default btn-lg btn-info btn-block" id="butn"
 						onclick="login();">登录</button>
 				</div>
-				<div style="margin-top: 10px;height: 20px;">没有账号？快去<a href="" style="color:red;">免费注册</a></div>
+				<div style="margin-top: 10px;height: 20px;">
+					没有账号？快去
+					<a href="<c:url value='/user/index?to=add'/>" style="color:red;">免费注册</a>
+					<a href="<c:url value='/user/index'/>" style="margin-left: 10px;">返回首页</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -74,7 +78,7 @@
 				dataType : "json",
 				success : function(data, textStatus) {
 					if (data.returncode == '200') {
-						window.location.href = '<c:url value="/pages/aass.jsp" />';
+						window.location.href = '<c:url value="/user/index" />';
 					} else if (data.returncode == '10000') {
 						$("#warningMsg").text("用户名或密码错误!");
 						$("#userName").val("");

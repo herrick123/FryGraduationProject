@@ -30,13 +30,26 @@ import com.self.user.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static String INDEX_LIST_PAGE = "/index";//用户列表页面
 	private static String USER_LIST_PAGE = "/user/userList";//用户列表页面
-	private static String USER_ADD_PAGE = "/user/adduser";//新增用户页面
-	private static String USER_EDIT_PAGE = "/user/edituser";//编辑用户页面
+	private static String USER_ADD_PAGE = "/user/addUser";//新增用户页面
+	private static String USER_EDIT_PAGE = "/user/editUser";//编辑用户页面
+	private static String USER_EDIT_PASSWORD_PAGE = "/user/editPasswordUser";//编辑用户密码页面
 	private static String USER_DET_PAGE = "/user/userDetails";//用户详情页面
 	
 	@Autowired
 	private UserService userService;
+	
+	/**
+	 * 首页
+	 */
+	@RequestMapping(value="/index")
+	public String indexPage(Model model, HttpServletRequest request, String to){
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		model.addAttribute("to", to);
+		model.addAttribute("loginUser", user);
+		return INDEX_LIST_PAGE;
+	}
 	
 	/**
 	 * 展示用户列表数据
@@ -127,7 +140,7 @@ public class UserController {
 			model.addAttribute("error", "新增用户出错！");
 			return "/exception";
 		}
-		return "redirect:/user/page";
+		return "redirect:/user/index";
 	}
 	
 	/**
@@ -137,8 +150,8 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method = RequestMethod.GET)
-	public String editUser(Model model, String id){
-		UserEntity user = userService.findUserEntityInfo(id);
+	public String editUser(Model model, HttpServletRequest request){
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
 		model.addAttribute("user", user);
 		
 		return USER_EDIT_PAGE;
@@ -150,38 +163,46 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/update",method = RequestMethod.POST)
-	public String updateUser(Model model,UserEntity user){
+	public String updateUser(Model model,UserEntity user, HttpServletRequest request){
 		MisLog.info(log, "修改用户信息!");
 		try {
 			userService.updateUserEntity(user);
+			request.getSession().setAttribute(GlobalCodeConstant.LOGIN_USER, user);
 		} catch (UpdateException e) {
 			MisLog.error(log, e.getMessage());
-			model.addAttribute("error", "更新用户出错！");
-			return "/exception";
 		}
-		return "redirect:/user/page";
+		return "redirect:/user/edit";
 	}
 	
 	/**
-	 * 修改密码用户密码
+	 * 编辑用户密码
+	 * @param model
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/editPassword",method = RequestMethod.GET)
+	public String editPassword(Model model, HttpServletRequest request){
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		model.addAttribute("user", user);
+		
+		return USER_EDIT_PASSWORD_PAGE;
+	}
+	
+	/**
+	 * 修改用户密码
 	 * @param ids
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value="/updatePassword",method=RequestMethod.POST)
-	public String updatePassword(String id, String password){
-		JSONObject json = JSONObject.parseObject("{}");
-		UserEntity user = new UserEntity();
-		user.setUuid(id);
-		user.setPassword(password);
+	public String updatePassword(UserEntity user, HttpServletRequest request){
+		MisLog.info(log, "修改用户密码!");
 		try{
 			userService.updateUserEntity(user);
-			json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
+			request.getSession().setAttribute(GlobalCodeConstant.LOGIN_USER, user);
 		}catch(UpdateException e){
 			MisLog.error(log, e.getMessage());
-			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
 		}
-		return json.toJSONString();
+		return "redirect:/user/editPassword";
 	}
 	
 	/**
@@ -220,8 +241,8 @@ public class UserController {
 	/**
 	 * 用户登录
 	 * @param request
-	 * @param userAccount
-	 * @param userPass
+	 * @param userName
+	 * @param password
 	 * @return
 	 */
     @ResponseBody
@@ -243,4 +264,22 @@ public class UserController {
 		return json.toJSONString();
     }
     
+    /**
+	 * 用户注销
+	 * @param request
+	 * @return
+	 */
+    @ResponseBody
+    @RequestMapping(value="/fryLogout")
+	public String logout(HttpServletRequest request,String userName,String password){
+    	JSONObject json = JSONObject.parseObject("{}");
+		request.getSession().removeAttribute(GlobalCodeConstant.LOGIN_USER);
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		if(user == null){
+			json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
+		}else{
+			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
+		}
+		return json.toJSONString();
+    }
 }

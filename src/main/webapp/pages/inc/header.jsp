@@ -31,3 +31,6 @@
 
 
 <%@ include file="/pages/inc/modalDialog.jsp" %>
+<script type="text/javascript">
+	var FRY_PATH = '<%=path%>';
+</script>

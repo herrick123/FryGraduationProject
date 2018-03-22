@@ -72,12 +72,12 @@ body {
 }
 
 .sodb-menu-icon {
-	width: 370px;
+	width: 310px;
 	float: left;
-	background: url(../img/logo.png) no-repeat 10px center;
+	background: url(../img/index/logoT.png) no-repeat 10px 5px;
 	height: 100px;
-	padding-left: 370px;
 	font-size: 14px;
+	background-size: 276px 80px;
 }
 
 .sodb-menu-context {

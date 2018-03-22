@@ -71,7 +71,7 @@ public class UserEntity {
 	 * 服务费
 	 */
 	@Column(name="SERVICE_CHARGE")
-	private Integer serviceCharge;
+	private Double serviceCharge;
 	
 	/**
 	 * 支付宝
@@ -83,7 +83,7 @@ public class UserEntity {
 	 * 保证金
 	 */
 	@Column(name="BOND")
-	private Integer bond;
+	private Double bond;
 	
 	/**
 	 * 区域（代发区域、市场区域）
@@ -171,11 +171,11 @@ public class UserEntity {
 		this.deliveryAddress = deliveryAddress;
 	}
 
-	public Integer getServiceCharge() {
+	public Double getServiceCharge() {
 		return serviceCharge;
 	}
 
-	public void setServiceCharge(Integer serviceCharge) {
+	public void setServiceCharge(Double serviceCharge) {
 		this.serviceCharge = serviceCharge;
 	}
 
@@ -187,11 +187,11 @@ public class UserEntity {
 		this.alipay = alipay;
 	}
 
-	public Integer getBond() {
+	public Double getBond() {
 		return bond;
 	}
 
-	public void setBond(Integer bond) {
+	public void setBond(Double bond) {
 		this.bond = bond;
 	}
 

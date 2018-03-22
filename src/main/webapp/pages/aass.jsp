@@ -15,9 +15,9 @@
 li{float:left;list-style:none;}
 </style>
 </head>
-<body>
+<body style="overflow-x: hidden;">
 	<!--头部开始/*head_top*/-->
-		<div id="top">
+		<%-- <div id="top">
 			<div class="topx">
 				<!--右开始-->
 			<div class="tops">
@@ -44,10 +44,10 @@ li{float:left;list-style:none;}
 			<div>
 			<img style="width: 570px;margin-top: -20px;height: 101px;margin-left: 345px" src="<%=path %>/img/index/1133.png"/>
 			</div>
-		</div>
+		</div> --%>
 		<!--搜索结束-->
 		<!--导航开始-->
-		<div id="dh" style="margin-top: 21px">
+		<%-- <div id="dh" style="margin-top: 21px">
 			<div class="dhz">
 			    <a href="<%=path %>/pages/index.jsp">首页</a>
 				<a href="">箱包货源</a>
@@ -56,7 +56,7 @@ li{float:left;list-style:none;}
 				<a href="">摄影服务</a>
 				<a href="">卖家注册</a>
 				<a href="">商家入驻</a>
-		</div>
+		</div> --%>
 		<!--导航结束-->
 			<!--分类内容结束-->
 			<h1>今日推荐</h1>
@@ -124,7 +124,7 @@ li{float:left;list-style:none;}
 				</div>
 			</li>
 			</ul>
-			<h2>更多精品</h2>
+			<!-- <h2>更多精品</h2> -->
 			<ul class="subs">
 				<li>
 				<img style="width: 232px;height: 232px" src="<%=path %>/img/index/index12.jpg" alt=""/>
@@ -151,17 +151,8 @@ li{float:left;list-style:none;}
 		<!--------------------联系公司方式开始----------------------->
 	
 		    <!--------------------联系公司证明开始----------------------->
-			<div class="icp">
+			<!-- <div class="icp">
 				<p>Copyright 2007 - 2016 vancl.com All Rights Reserved 京ICP证100557号 京公网安备11011502002400号 出版物经营许可证新出发京批字第直110138号</p>
-		    </div>
-		    <div class="soksld"></div>
-		    <div class="icpt">
-		    	<img src="<%=path %>/img/index/ccw.png" alt="" />
-		    	<img src="<%=path %>/img/index/yf.png" alt="" />
-		    	<img src="<%=path %>/img/index/pzzx.png" alt="" />
-		    	<img src="<%=path %>/img/index/icpcx.png" alt="" />
-		    	<img src="<%=path %>/img/index/bzd.png" alt="" />
-		    	<img src="<%=path %>/img/index/ppztc.png" alt="" />
-		    </div>
+		    </div> -->
 </body>
 </html>
