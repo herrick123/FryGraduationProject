@@ -231,7 +231,7 @@
 												<button type="button" id="subBtn" class="sbtn sbtn-blue sbtn30">
 													保存</button>
 												<button style="margin-left: 45px;" type="button"
-												 	onclick="window.location.href='maintainPlan.jsp'"
+												 	id="consoleBtn"
 													class="sbtn sbtn-default sbtn30">取消</button>
 											</div>
 										</div>
@@ -418,7 +418,9 @@ function preview(file) {
 		
 	}
 }
-
+$("#consoleBtn").click(function(){
+	window.location.href='../../pages/commodity/commodityList.jsp'
+})
 
 </script>
 </body>

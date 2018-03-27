@@ -29,7 +29,7 @@
 	<form name="userForm" class="form-horizontal" id="userForm"
 		action="<c:url value='/user/save' />" method="post">
 		<input type="hidden" id="role" name="role" value="1"/>
-		<div class="row" style="margin-top: 50px;">
+		<div class="row" style="margin-top: 50px;margin-left: -12%">
 			<div class="form-group col-md-12">
 				<div class="col-md-2"></div>
 				<div class="col-md-8" style="margin-left: 48px;">
@@ -190,7 +190,7 @@
 			</div>
 		</div>
 		<div style="text-align: center; margin-top: 20px;">
-			<button id="subBtn" type="button" class="sbtn sbtn-blue" onclick="submit_user();">
+			<button id="subBtn" type="button" class="sbtn sbtn-blue" onclick="submit_user();" style="margin-left: -18%">
 			<i class="icon-right fa fa-send"></i>提交</button>
 			<!-- <button style="margin-left: 45px;" type="button" id="backBtn" class="sbtn sbtn-default">
 			<i class="icon-right fa fa-reply"></i>返回</button> -->

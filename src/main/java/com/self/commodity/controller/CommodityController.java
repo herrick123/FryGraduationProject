@@ -2,6 +2,7 @@ package com.self.commodity.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,9 +31,13 @@ import com.core.constant.GlobalCodeConstant;
 import com.core.util.MisLog;
 import com.core.util.Page;
 import com.github.pagehelper.PageInfo;
+import com.core.util.FileUtil;
 import com.self.area.entity.AreaEntity;
 import com.self.commodity.entity.CommodityEntity;
+import com.self.commodity.entity.DownloadRecordEntity;
 import com.self.commodity.service.CommodityService;
+import com.self.user.entity.UserEntity;
+import com.self.user.service.UserService;
 
 
 @Controller
@@ -40,11 +45,17 @@ import com.self.commodity.service.CommodityService;
 public class CommodityController {
 	private static final Logger log = LoggerFactory.getLogger(CommodityEntity.class);
 	private static String COMMODITY_LIST_PAGE = "/commodity/commodityList";//商品列表页面
+	private static String COMMODITYSS_LIST_PAGE = "/commodity/userIdCommodity";//商品列表页面
 	private static String COMMODITYS_LIST_PAGE = "/aass";//首页
+	private static String ADDCOMMODITY_LIST_PAGE = "/commodity/uploadZip";//新增页面
 	private static String COMMODITY_EDIT_PAGE = "/commodity/editCommodity";
+	private static String COMMODITYMESSAGE_EDIT_PAGE = "/commodity/commodityMessage";//产品信息页面
+	private static String FIRMLIST = "/commodity/firmList";//产品信息页面
 	@Autowired
 	private CommodityService commodityService;
-	
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * 展示商品列表数据
 	 * @return
@@ -53,6 +64,75 @@ public class CommodityController {
 	public String CommodityPage(){
 		return COMMODITY_LIST_PAGE;
 	}
+	/**
+	 * 展示网供列表数据
+	 * @return
+	 */
+	@RequestMapping(value="/pageFirmList")
+	public String FirmListPage(){
+		return FIRMLIST;
+	}
+	
+	@RequestMapping(value="/pageUserCommoditys/{uuid}",method = RequestMethod.GET)
+	public String userIdCommoditys(Model model,@PathVariable("uuid") String uuid){
+		model.addAttribute("uuid", uuid);
+		return COMMODITYSS_LIST_PAGE;
+	}
+	/**
+	 * 根据userId查询商品列表
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping(value="/pageUserCommodity/{uuid}",method = RequestMethod.POST)
+	public String userIdCommodity(Model model,HttpServletRequest request,String gridPager,@PathVariable("uuid") String uuid) {
+		JSONObject json = JSONObject.parseObject(gridPager);
+		JSONObject commodityjson = json.getJSONObject("parameters");
+		MisLog.info(log, json.toJSONString());
+		Page<CommodityEntity> page =  JSONObject.toJavaObject(json,Page.class);
+		CommodityEntity commodityEntitys = JSONObject.toJavaObject(commodityjson, CommodityEntity.class);
+		commodityEntitys.setUserId(uuid);
+		List<CommodityEntity> commodityList = this.commodityService.getCommodityList(commodityEntitys, page);
+		PageInfo<CommodityEntity> pageInfo = new PageInfo<CommodityEntity>(commodityList);
+		page = new Page<CommodityEntity>(pageInfo);
+		String result = JSONObject.toJSONString(page);
+		MisLog.info(log,result);
+		return result;
+		
+	}
+	
+	@RequestMapping(value="/pages")
+	public String CommodityPages(Model model){
+		CommodityEntity commodityEntity = new CommodityEntity();
+		List<CommodityEntity> commodityEntitis = commodityService.findCommodity(commodityEntity);
+		model.addAttribute("commodityEntitis", commodityEntitis);
+		return COMMODITYS_LIST_PAGE;
+	}
+
+	
+	
+	/**
+	 * 跳转产品信息
+	 * @return
+	 */
+	@RequestMapping(value="/commodityMessage/{uuid}",method = RequestMethod.GET)
+	public String CommodityMessagePages(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable("uuid") String uuid){
+		CommodityEntity commodityEntity = commodityService.findCommodityEntityInfo(uuid);
+		UserEntity userEntity = userService.findUserEntityInfo(commodityEntity.getUserId());
+		DownloadRecordEntity downloadRecordEntity = new DownloadRecordEntity();
+		downloadRecordEntity.setCommodityId(uuid);
+		List<DownloadRecordEntity> downloadRecordList =this.commodityService.findDownloadRecord(downloadRecordEntity);
+		model.addAttribute("downloadRecordList", downloadRecordList);
+		model.addAttribute("userEntity", userEntity);
+		model.addAttribute("commodityEntity", commodityEntity);
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		if(user == null) {
+			model.addAttribute("noUser", 0);
+		}
+		return COMMODITYMESSAGE_EDIT_PAGE;
+	}
+	
+
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value="/pageList")
@@ -63,7 +143,8 @@ public class CommodityController {
 		MisLog.info(log, json.toJSONString());
 		Page<CommodityEntity> page =  JSONObject.toJavaObject(json,Page.class);
 		CommodityEntity commodityEntity = JSONObject.toJavaObject(commodityjson, CommodityEntity.class);
-		commodityEntity.setUserId("1");
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		commodityEntity.setUserId(user.getUuid());
 		List<CommodityEntity> commodityList = this.commodityService.getCommodityList(commodityEntity, page);
 		PageInfo<CommodityEntity> pageInfo = new PageInfo<CommodityEntity>(commodityList);
 		page = new Page<CommodityEntity>(pageInfo);
@@ -71,8 +152,36 @@ public class CommodityController {
 		MisLog.info(log,result);
 		return result;
 	}
-	
-	
+	/**
+	 * 分页查询厂商列表
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping(value="/firmListpages")
+	public String findFirmList(HttpServletRequest request , Model model,String gridPager) {
+		MisLog.info(log,"查询网供列表分页数据");
+		JSONObject json = JSONObject.parseObject(gridPager);
+		JSONObject firmjson = json.getJSONObject("parameters");
+		MisLog.info(log, json.toJSONString());
+		Page<UserEntity> page = JSONObject.toJavaObject(json,Page.class);
+		UserEntity userEntity = JSONObject.toJavaObject(firmjson, UserEntity.class);
+		List<UserEntity> firmList = this.commodityService.findFirmList(userEntity, page);
+		PageInfo<UserEntity> pageInfo = new PageInfo<UserEntity>(firmList);
+		page = new Page<UserEntity>(pageInfo);
+		String result = JSONObject.toJSONString(page);
+		MisLog.info(log,result);
+		return result;
+		
+	}
+	/**
+	 * 跳转新增页面
+	 * @return
+	 */
+	@RequestMapping(value="/addCommodity")
+	public String AddCommodity(){
+		return ADDCOMMODITY_LIST_PAGE;
+	}
 	/**
 	 * 新增
 	 * @return
@@ -103,10 +212,12 @@ public class CommodityController {
 
 	        }
 		} catch (Exception e) {
-			MisLog.error(log, "录入员工失败",e);
+			MisLog.error(log, "录入失败",e);
 		}
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		commodityEntity.setUserId(user.getUuid());
 		commodityService.saveCommodityZip(commodityEntity);
-		return COMMODITYS_LIST_PAGE;
+		return "redirect:/pages/commodity/commodityList.jsp";
 	}
 	/**
 	 * 逻辑删除产品
@@ -177,7 +288,6 @@ public class CommodityController {
 			fileName=file.getOriginalFilename();//获取文件名加后缀
 			fileName=file.getOriginalFilename();//获取文件名加后缀
 	        if(fileName!=null&&fileName!=""){ 
-	        	
 	        	//存储的路径
 	            String fileF = fileName.substring(fileName.lastIndexOf("."), fileName.length());//文件后缀
 	            fileName=new Date().getTime()+"_"+new Random().nextInt(1000)+fileF;//新的文件名
@@ -194,7 +304,7 @@ public class CommodityController {
 			model.addAttribute("error", "修改产品信息出错！");
 			return "/exception";
 		}
-		return COMMODITYS_LIST_PAGE;
+		return "redirect:/pages/commodity/commodityList.jsp";
 	}
 	/**
 	 * 文件异步上传DEMO
@@ -221,6 +331,45 @@ public class CommodityController {
 		}
 		return json.toJSONString();
 	}
+	/**
+	 * 文件下载
+	 * @param response
+	 */
+	
+	@RequestMapping(value="/download")
+	public void downloadFile(Model model,HttpServletResponse response, String filename,String uuid,HttpServletRequest request){
+				try {
+					filename = java.net.URLDecoder.decode(filename,"utf-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				String path = "d://tempDirectory/" + filename;
+				MisLog.debug(log, path + "");
+				FileUtil.downloadFile(response, path, Boolean.FALSE);
+	
+	}
+	/**
+	 * 新增文件下载记录
+	 * @param response
+	 */
+	@ResponseBody
+	@RequestMapping(value="/downloadRecord",method = RequestMethod.POST)
+	public String downloadRecord(HttpServletResponse response, String uuid,HttpServletRequest request) {
+		JSONObject json = JSONObject.parseObject("{}");
+		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		if(user != null) {
+			DownloadRecordEntity downloadRecordEntity = new DownloadRecordEntity();
+			downloadRecordEntity.setAccess("下载");
+			downloadRecordEntity.setCommodityId(uuid);
+			downloadRecordEntity.setUserId(user.getUuid());
+			downloadRecordEntity.setUserName(user.getUserName());
+			commodityService.saveDownloadRecordEntity(downloadRecordEntity);
+		}else {
+			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
+		}
+		return json.toJSONString();
+	}
+		
 	/**
 	 * 数据校验
 	 * @param areaName

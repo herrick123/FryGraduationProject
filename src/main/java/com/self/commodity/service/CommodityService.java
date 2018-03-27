@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.core.util.Page;
 import com.self.commodity.entity.CommodityEntity;
+import com.self.commodity.entity.DownloadRecordEntity;
+import com.self.user.entity.UserEntity;
 
 public interface CommodityService  {
 	/**
@@ -25,6 +27,18 @@ public interface CommodityService  {
 	public Integer updataCommodity(CommodityEntity commodity);
 
 	public CommodityEntity findCommodityEntityInfo(String uuid);
+
+	List<CommodityEntity> findCommodity(CommodityEntity commodityEntity);
+
+	List<DownloadRecordEntity> downloadRecordEntity(DownloadRecordEntity downloadRecordEntity);
+
+	Integer saveDownloadRecordEntity(DownloadRecordEntity downloadRecordEntity);
+
+	List<DownloadRecordEntity> findDownloadRecord(String commodityId);
+
+	List<DownloadRecordEntity> findDownloadRecord(DownloadRecordEntity downloadRecordEntity);
+
+	List<UserEntity> findFirmList(UserEntity userEntity, Page<UserEntity> page);
 	
 
 }

@@ -24,7 +24,7 @@ li{ list-style:none;}
 /*iteminfo*/
 .iteminfo{}
 .iteminfo_tit{ color:#333; font-size:22px; font-family:"微软雅黑",Arial, Helvetica, sans-serif; border-bottom:1px solid #e3e3e3; font-weight:normal; padding-bottom:12px; line-height:32px;}
-.iteminfo_parameter{ padding:8px 0; padding-left:70px;}
+.iteminfo_parameter{padding-left:70px;}
 .iteminfo_parameter_default{ color:#888;}
 .iteminfo_parameter dt{ margin-left:-70px; float:left; display:inline; width:60px; white-space:nowrap; text-align:right; color:#888;}
 

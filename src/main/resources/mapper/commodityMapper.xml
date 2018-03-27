@@ -17,7 +17,7 @@
 		1=1
 		AND a.user_id = #{userId}
 		<if test = "commodityName != null" >
-		AND a.commodity_name like concat (concat ('%', #{commodityName}),'%') 
+		AND a.commodity_name like concat (concat ('%',#{commodityName}),'%') 
 		</if > 
 			ORDER BY staus DESC
 </select>

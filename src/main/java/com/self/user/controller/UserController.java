@@ -22,6 +22,8 @@ import com.core.exception.UpdateException;
 import com.core.util.MisLog;
 import com.core.util.Page;
 import com.github.pagehelper.PageInfo;
+import com.self.commodity.entity.CommodityEntity;
+import com.self.commodity.service.CommodityService;
 import com.self.user.entity.UserEntity;
 import com.self.user.service.UserService;
 
@@ -39,6 +41,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CommodityService commodityService;
 	
 	/**
 	 * 首页
@@ -46,6 +50,9 @@ public class UserController {
 	@RequestMapping(value="/index")
 	public String indexPage(Model model, HttpServletRequest request, String to){
 		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		CommodityEntity commodityEntity = new CommodityEntity();
+		List<CommodityEntity> commodityEntitis = commodityService.findCommodity(commodityEntity);
+		model.addAttribute("commodityEntitis", commodityEntitis);
 		model.addAttribute("to", to);
 		model.addAttribute("loginUser", user);
 		return INDEX_LIST_PAGE;

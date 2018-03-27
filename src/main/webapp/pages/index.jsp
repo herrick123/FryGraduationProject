@@ -22,19 +22,19 @@
 <script type="text/javascript" src="<%=path%>/js/index/app.js"></script>
 <script type="text/javascript" src="<%=path%>/js/index/util.js"></script>
 </head>
-<body class="sodb_index_body">
+<body class="sodb_index_body" style="background-color: red;!important">
 	<div style="width:270px;">
-		<div class="sodb-menu-icon"></div>
+		<div class="sodb-menu-icon" style="background-color:#272B3A;"></div>
 	</div>
 	<div id="sodb-home-top" class="sodb_head">
 		<div class="sodb-menu-context">
 			<div class="sodb-menu-context-list sodb-menu-bk" 
-				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/pages/aass.jsp">
+				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/pages">
 				<div class="sodb-menu-context-top sodb-menu-context-top-home">&nbsp;</div>
 				<div class="sodb-menu-context-bottom">箱包货源</div>
 			</div>
 			<div class="sodb-menu-context-list "
-				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/pages/aass.jsp">
+				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/pageFirmList">
 				<div class="sodb-menu-context-top sodb-menu-context-top-situation">&nbsp;</div>
 				<div class="sodb-menu-context-bottom">网供列表</div>
 			</div>
@@ -69,9 +69,9 @@
 			</div>
 		</c:if>
 	</div>
-	<div id="sodb-index-area" class="sodb-index-home" style="height:auto;">
-	    <iframe id="homeIframe" src="<%=path %>/pages/aass.jsp" style="width:100%;border:0px;overflow-x: hidden;height:auto"></iframe>
-	</div>
+	<div id="sodb-index-area" class="sodb-index-home" style=" height:auto;background-color: white;!important">
+	    <iframe id="homeIframe" src="<%=path %>/commodity/pages" style="width:100%;border:0px;overflow-x: hidden;overflow-y:hidden;height:auto;margin-left:4%;scrolling : no"></iframe>
+	</div> 
 	<div id="sodb-context-area" style="display: none;">
 		<aside id="left-panel" class="icon-not"> 
 		<nav>
@@ -95,9 +95,17 @@
 				<!-- 淘宝店家 end -->
 				<!-- 供货厂家  start-->
 				<c:if test="${loginUser.role == 2 }">
-					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/page">
+					<%-- <li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/page">
 						<i class="fa fa-lg fa-fw fa-table"></i><span class="menu-item-parent">产品列表</span></a>
-					</li>
+					</li> --%>
+					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/page"><i class="fa fa-lg fa-fw fa-table"></i><span class="menu-item-parent">产品管理</span></a>
+					<ul>
+						<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/page">产品列表</a></li>
+						<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/addCommodity">上传压缩包</a></li>
+					</ul>
+				</li>
+
+					
 				</c:if>	
 				<!-- 供货厂家 end -->
 				<!-- 代发厂家 start-->

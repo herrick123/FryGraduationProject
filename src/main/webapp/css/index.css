@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 body{margin:0; padding:0;font-family:"Microsoft Yahei";}
-.sodb_index_body{color:#fff;background: #272B3A !important;/* background: linear-gradient(#2d456b, #809bb6, #a8b0b3, #6d7487); */background-attachment: fixed;min-width:1300px;}
+.sodb_index_body{color:#fff;background: white !important;/* background: linear-gradient(#2d456b, #809bb6, #a8b0b3, #6d7487); */background-attachment: fixed;min-width:1300px;}
 .sodb_head{height:100px;line-height:100px;margin-left:265px;background-color: #272B3A;}/* #262937 */
 .row{margin:0px;}
 .sodb-menu-top-right-area{height:100px;line-height:100px;float:right;}

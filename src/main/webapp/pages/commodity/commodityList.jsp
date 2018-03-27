@@ -194,7 +194,6 @@
     })
 
     function editApp(uuid) {
-    	alert(uuid);
     	window.location.href = '<c:url value="/commodity/editCommodity/" />' + uuid;
     } 
 
@@ -202,7 +201,6 @@
     function deleteApp(uuid){
         $("#delOneModel").modal();
         $("#modalId").val(uuid);
-        alert(uuid)
     }
 
     $("#deleteOneBtn").click(function() {

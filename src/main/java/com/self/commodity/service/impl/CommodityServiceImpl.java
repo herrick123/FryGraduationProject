@@ -21,12 +21,12 @@ import com.core.util.MisUtil;
 import com.core.util.Page;
 import com.core.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
-import com.self.area.entity.AreaEntity;
 import com.self.commodity.dao.CommodityMapper;
+import com.self.commodity.dao.DownloadRecordMapper;
 import com.self.commodity.entity.CommodityEntity;
+import com.self.commodity.entity.DownloadRecordEntity;
 import com.self.commodity.service.CommodityService;
-import com.self.project.entity.ProjectManageEntity;
-import com.self.projectEmp.entity.ProjectEmployee;
+import com.self.user.entity.UserEntity;
 
 import tk.mybatis.mapper.entity.Example;
 
@@ -36,6 +36,8 @@ import tk.mybatis.mapper.entity.Example;
 public class CommodityServiceImpl implements CommodityService {
 	@Autowired
 	private CommodityMapper commodityMapper;
+	@Autowired
+	private DownloadRecordMapper downloadRecordMapper;
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	/**
@@ -74,6 +76,29 @@ public class CommodityServiceImpl implements CommodityService {
 		
 	}
 	/**
+	 * 分页查询所有厂商列表
+	 */
+	@Override
+	public List<UserEntity> findFirmList(UserEntity userEntity,Page<UserEntity> page){
+		Map<String,Object> param = new HashMap<String,Object>();
+		PageHelper.startPage(page.getNowPage(),page.getPageSize());
+		List<UserEntity> result = null;
+		param.put("address", userEntity.getAddress());
+		try {
+			result = sqlSession.selectList("search_firmList_userEntity_info", param);
+		} catch (Exception e) {
+			throw new BaseException("查询失败"+e);
+		}
+		return result;
+	}
+	
+	
+	@Override
+	public List<CommodityEntity> findCommodity(CommodityEntity commodityEntity){
+		return commodityMapper.selectAll();
+		
+	}
+	/**
 	 * 根据uuid查询产品
 	 */
 	@Override
@@ -84,6 +109,34 @@ public class CommodityServiceImpl implements CommodityService {
 			throw new ParamsException("根据uuid查询产品信息失败!"+e);
 		}
 		return commodityMapper.selectByPrimaryKey(uuid);
+	}
+	/**
+	 * 新增下载记录
+	 */
+	@Override
+	public  Integer saveDownloadRecordEntity(DownloadRecordEntity downloadRecordEntity){
+		String id = UuidUtil.getUuid36();
+		downloadRecordEntity.setCreateTime(new Date());
+		downloadRecordEntity.setUuid(id);
+		int result = GlobalCodeConstant.BASE_ERROR_CODE;
+		try {
+			result = downloadRecordMapper.insert(downloadRecordEntity);
+		} catch (Exception e) {
+			throw new SaveException("新增记录失败"+e);
+		}
+		return result;
+		
+	}
+	/**
+	 * 根据产品Id查询下载记录
+	 */
+	@Override
+	public List<DownloadRecordEntity> findDownloadRecord(DownloadRecordEntity downloadRecordEntity){
+		Map<String,Object> param=new HashMap<String,Object>();
+		List<DownloadRecordEntity> result = null;
+		param.put("commodityId", downloadRecordEntity.getCommodityId());
+		result = sqlSession.selectList("search_commodityId_downloadRecordEntity_info", param);
+		return result;
 	}
 	/**
 	 * 逻辑下架产品
@@ -152,6 +205,16 @@ public class CommodityServiceImpl implements CommodityService {
 			criteria.andNotEqualTo(key, notIn.get(key));
 		}
 		return commodityMapper.selectCountByCondition(example);
+	}
+	@Override
+	public List<DownloadRecordEntity> downloadRecordEntity(DownloadRecordEntity downloadRecordEntity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<DownloadRecordEntity> findDownloadRecord(String commodityId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

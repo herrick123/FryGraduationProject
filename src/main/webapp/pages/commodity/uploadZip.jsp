@@ -36,9 +36,9 @@
 }
 </style>
 </head>
-<body>
+<body style="overflow-x: hidden;">
 	<div class="sodb-page-home">
-		<ul class="sodb-page-ul">
+		<ul class="sodb-page-ul" style="margin-left: 3%">
 			<li><i class="fa fa-home"></i> <a href="#">白沟箱包网</a> <i
 				class="fa fa-angle-right"></i></li>
 			<li><a href="#">商家管理</a> <i class="fa fa-angle-right"></i></li>
@@ -74,7 +74,7 @@
 												<div class="col-md-4">
 												   <input type="file" name="fileTest" id="fileTest" multiple style="width: 300px;padding: 4px;"  />
 												    <input type="hidden" name="uploadCompression" id="prjDoc" />
-											        当前选择的文件列表
+											      <!--   当前选择的文件列表 -->
 											        <span class="file-temp">
 											        </span>
 												   <div id="file-btn" style="display: none;">
