@@ -3,7 +3,6 @@ package com.self.commodity.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +31,11 @@ import com.core.util.MisLog;
 import com.core.util.Page;
 import com.github.pagehelper.PageInfo;
 import com.core.util.FileUtil;
-import com.self.area.entity.AreaEntity;
 import com.self.commodity.entity.CommodityEntity;
 import com.self.commodity.entity.DownloadRecordEntity;
 import com.self.commodity.service.CommodityService;
-import com.self.user.entity.UserEntity;
-import com.self.user.service.UserService;
+import com.self.user.entity.FryUserEntity;
+import com.self.user.service.FryUserService;
 
 
 @Controller
@@ -54,7 +52,7 @@ public class CommodityController {
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
-	private UserService userService;
+	private FryUserService userService;
 
 	/**
 	 * 展示商品列表数据
@@ -118,14 +116,14 @@ public class CommodityController {
 	@RequestMapping(value="/commodityMessage/{uuid}",method = RequestMethod.GET)
 	public String CommodityMessagePages(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable("uuid") String uuid){
 		CommodityEntity commodityEntity = commodityService.findCommodityEntityInfo(uuid);
-		UserEntity userEntity = userService.findUserEntityInfo(commodityEntity.getUserId());
+		FryUserEntity userEntity = userService.findFryUserEntityInfo(commodityEntity.getUserId());
 		DownloadRecordEntity downloadRecordEntity = new DownloadRecordEntity();
 		downloadRecordEntity.setCommodityId(uuid);
 		List<DownloadRecordEntity> downloadRecordList =this.commodityService.findDownloadRecord(downloadRecordEntity);
 		model.addAttribute("downloadRecordList", downloadRecordList);
 		model.addAttribute("userEntity", userEntity);
 		model.addAttribute("commodityEntity", commodityEntity);
-		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		FryUserEntity user = (FryUserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
 		if(user == null) {
 			model.addAttribute("noUser", 0);
 		}
@@ -143,7 +141,7 @@ public class CommodityController {
 		MisLog.info(log, json.toJSONString());
 		Page<CommodityEntity> page =  JSONObject.toJavaObject(json,Page.class);
 		CommodityEntity commodityEntity = JSONObject.toJavaObject(commodityjson, CommodityEntity.class);
-		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		FryUserEntity user = (FryUserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
 		commodityEntity.setUserId(user.getUuid());
 		List<CommodityEntity> commodityList = this.commodityService.getCommodityList(commodityEntity, page);
 		PageInfo<CommodityEntity> pageInfo = new PageInfo<CommodityEntity>(commodityList);
@@ -164,11 +162,11 @@ public class CommodityController {
 		JSONObject json = JSONObject.parseObject(gridPager);
 		JSONObject firmjson = json.getJSONObject("parameters");
 		MisLog.info(log, json.toJSONString());
-		Page<UserEntity> page = JSONObject.toJavaObject(json,Page.class);
-		UserEntity userEntity = JSONObject.toJavaObject(firmjson, UserEntity.class);
-		List<UserEntity> firmList = this.commodityService.findFirmList(userEntity, page);
-		PageInfo<UserEntity> pageInfo = new PageInfo<UserEntity>(firmList);
-		page = new Page<UserEntity>(pageInfo);
+		Page<FryUserEntity> page = JSONObject.toJavaObject(json,Page.class);
+		FryUserEntity userEntity = JSONObject.toJavaObject(firmjson, FryUserEntity.class);
+		List<FryUserEntity> firmList = this.commodityService.findFirmList(userEntity, page);
+		PageInfo<FryUserEntity> pageInfo = new PageInfo<FryUserEntity>(firmList);
+		page = new Page<FryUserEntity>(pageInfo);
 		String result = JSONObject.toJSONString(page);
 		MisLog.info(log,result);
 		return result;
@@ -214,7 +212,7 @@ public class CommodityController {
 		} catch (Exception e) {
 			MisLog.error(log, "录入失败",e);
 		}
-		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		FryUserEntity user = (FryUserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
 		commodityEntity.setUserId(user.getUuid());
 		commodityService.saveCommodityZip(commodityEntity);
 		return "redirect:/pages/commodity/commodityList.jsp";
@@ -356,7 +354,7 @@ public class CommodityController {
 	@RequestMapping(value="/downloadRecord",method = RequestMethod.POST)
 	public String downloadRecord(HttpServletResponse response, String uuid,HttpServletRequest request) {
 		JSONObject json = JSONObject.parseObject("{}");
-		UserEntity user = (UserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
+		FryUserEntity user = (FryUserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
 		if(user != null) {
 			DownloadRecordEntity downloadRecordEntity = new DownloadRecordEntity();
 			downloadRecordEntity.setAccess("下载");

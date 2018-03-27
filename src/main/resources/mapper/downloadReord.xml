@@ -8,9 +8,8 @@
 		a.CREATE_TIME as createTime,
 		a.ACCESS as access,
 		a.USER_NAME as userName
-		
 	FROM
-		PICTURE a
+		DOWNLOAD_RECORD a
 	WHERE
 		1=1
 		AND a.COMMODITY_id = #{commodityId}

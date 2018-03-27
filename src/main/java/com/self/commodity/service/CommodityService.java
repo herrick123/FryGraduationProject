@@ -6,7 +6,7 @@ import java.util.Map;
 import com.core.util.Page;
 import com.self.commodity.entity.CommodityEntity;
 import com.self.commodity.entity.DownloadRecordEntity;
-import com.self.user.entity.UserEntity;
+import com.self.user.entity.FryUserEntity;
 
 public interface CommodityService  {
 	/**
@@ -38,7 +38,7 @@ public interface CommodityService  {
 
 	List<DownloadRecordEntity> findDownloadRecord(DownloadRecordEntity downloadRecordEntity);
 
-	List<UserEntity> findFirmList(UserEntity userEntity, Page<UserEntity> page);
+	List<FryUserEntity> findFirmList(FryUserEntity userEntity, Page<FryUserEntity> page);
 	
 
 }

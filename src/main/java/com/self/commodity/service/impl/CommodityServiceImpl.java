@@ -1,13 +1,10 @@
 package com.self.commodity.service.impl;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +23,8 @@ import com.self.commodity.dao.DownloadRecordMapper;
 import com.self.commodity.entity.CommodityEntity;
 import com.self.commodity.entity.DownloadRecordEntity;
 import com.self.commodity.service.CommodityService;
-import com.self.user.entity.UserEntity;
+import com.self.user.entity.FryUserEntity;
+import com.self.user.service.FryUserService;
 
 import tk.mybatis.mapper.entity.Example;
 
@@ -34,10 +32,16 @@ import tk.mybatis.mapper.entity.Example;
 
 @Service("commodityService")
 public class CommodityServiceImpl implements CommodityService {
+	
 	@Autowired
 	private CommodityMapper commodityMapper;
+	
 	@Autowired
 	private DownloadRecordMapper downloadRecordMapper;
+	
+	@Autowired
+	private FryUserService fryUserService;
+	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	/**
@@ -68,7 +72,7 @@ public class CommodityServiceImpl implements CommodityService {
 		param.put("commodityName",commodityEntity.getCommodityName());
 		param.put("userId", commodityEntity.getUserId());
 		try {
-			result = sqlSession.selectList("search_commodityName_commodityEntity_info", param);
+			result = sqlSession.selectList("com.commodityEntity.search_commodityName_commodityEntity_info", param);
 		} catch (Exception e) {
 			throw new BaseException("查询失败"+e);
 		}
@@ -79,24 +83,18 @@ public class CommodityServiceImpl implements CommodityService {
 	 * 分页查询所有厂商列表
 	 */
 	@Override
-	public List<UserEntity> findFirmList(UserEntity userEntity,Page<UserEntity> page){
-		Map<String,Object> param = new HashMap<String,Object>();
-		PageHelper.startPage(page.getNowPage(),page.getPageSize());
-		List<UserEntity> result = null;
-		param.put("address", userEntity.getAddress());
-		try {
-			result = sqlSession.selectList("search_firmList_userEntity_info", param);
-		} catch (Exception e) {
-			throw new BaseException("查询失败"+e);
-		}
+	public List<FryUserEntity> findFirmList(FryUserEntity userEntity,Page<FryUserEntity> page){
+		userEntity.setRole("2");
+		List<FryUserEntity> result = fryUserService.findFryUserPage(userEntity, page);
+		
 		return result;
 	}
 	
 	
 	@Override
 	public List<CommodityEntity> findCommodity(CommodityEntity commodityEntity){
-		return commodityMapper.selectAll();
 		
+		return commodityMapper.selectAll();
 	}
 	/**
 	 * 根据uuid查询产品
@@ -135,7 +133,7 @@ public class CommodityServiceImpl implements CommodityService {
 		Map<String,Object> param=new HashMap<String,Object>();
 		List<DownloadRecordEntity> result = null;
 		param.put("commodityId", downloadRecordEntity.getCommodityId());
-		result = sqlSession.selectList("search_commodityId_downloadRecordEntity_info", param);
+		result = sqlSession.selectList("com.downloadRecordEntity.search_commodityId_downloadRecordEntity_info", param);
 		return result;
 	}
 	/**

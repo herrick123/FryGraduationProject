@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name="PICTURE")
+@Table(name="DOWNLOAD_RECORD")
 public class DownloadRecordEntity {
 	
 	/**
@@ -38,11 +38,13 @@ public class DownloadRecordEntity {
 	 */
 	@Column(name="ACCESS")
 	private String access;
+	
 	/**
 	 * 用户名
 	 */
 	@Column(name="USER_NAME")
 	private String userName;
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -79,6 +81,4 @@ public class DownloadRecordEntity {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
-	
 }
