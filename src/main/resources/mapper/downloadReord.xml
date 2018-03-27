@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.downloadRecordEntity" >
+<select id="search_commodityId_downloadRecordEntity_info" parameterType="java.util.Map" resultType="com.self.commodity.entity.DownloadRecordEntity" >
+	SELECT
+		a.UUID as uuid,
+		a.USER_ID as userId,
+		a.CREATE_TIME as createTime,
+		a.ACCESS as access,
+		a.USER_NAME as userName
+		
+	FROM
+		PICTURE a
+	WHERE
+		1=1
+		AND a.COMMODITY_id = #{commodityId}
+</select>
+</mapper>
