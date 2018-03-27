@@ -142,7 +142,9 @@ public class CommodityController {
 		Page<CommodityEntity> page =  JSONObject.toJavaObject(json,Page.class);
 		CommodityEntity commodityEntity = JSONObject.toJavaObject(commodityjson, CommodityEntity.class);
 		FryUserEntity user = (FryUserEntity) request.getSession().getAttribute(GlobalCodeConstant.LOGIN_USER);
-		commodityEntity.setUserId(user.getUuid());
+		if(user != null && "2".equals(user.getRole())){
+			commodityEntity.setUserId(user.getUuid());
+		}
 		List<CommodityEntity> commodityList = this.commodityService.getCommodityList(commodityEntity, page);
 		PageInfo<CommodityEntity> pageInfo = new PageInfo<CommodityEntity>(commodityList);
 		page = new Page<CommodityEntity>(pageInfo);

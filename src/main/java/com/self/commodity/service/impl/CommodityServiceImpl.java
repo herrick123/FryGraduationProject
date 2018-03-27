@@ -51,7 +51,7 @@ public class CommodityServiceImpl implements CommodityService {
 	public Integer saveCommodityZip(CommodityEntity commodityEntity) {
 		String id = UuidUtil.getUuid36();
 		commodityEntity.setUuid(id);
-		commodityEntity.setStaus("1");
+		commodityEntity.setStatus("1");
 		commodityEntity.setReleaseTime(new Date());
 		int result = GlobalCodeConstant.BASE_ERROR_CODE;
 		try {
@@ -70,7 +70,9 @@ public class CommodityServiceImpl implements CommodityService {
 		PageHelper.startPage(page.getNowPage(),page.getPageSize());
 		List<CommodityEntity> result = null;
 		param.put("commodityName",commodityEntity.getCommodityName());
+		param.put("commodityNumber",commodityEntity.getCommodityNumber());
 		param.put("userId", commodityEntity.getUserId());
+		param.put("status", commodityEntity.getStatus());
 		try {
 			result = sqlSession.selectList("com.commodityEntity.search_commodityName_commodityEntity_info", param);
 		} catch (Exception e) {
@@ -146,7 +148,7 @@ public class CommodityServiceImpl implements CommodityService {
 		try {
 			for(int i = 0; i<uuids.length;i++) {
 				commodityEndity.setUuid(uuids[i]);
-				commodityEndity.setStaus("0");
+				commodityEndity.setStatus("0");
 				result=commodityMapper.updateByPrimaryKeySelective(commodityEndity);
 			}
 		} catch (Exception e) {

@@ -79,8 +79,8 @@ public class CommodityEntity {
 	/**
 	 * 状态（0下架/1上架）
 	 */
-	@Column(name="STAUS")
-	private String staus;
+	@Column(name="STATUS")
+	private String status;
 	
 	/**
 	 * 标签
@@ -206,12 +206,12 @@ public class CommodityEntity {
 		this.price = price;
 	}
 
-	public String getStaus() {
-		return staus;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setStaus(String staus) {
-		this.staus = staus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getLabel() {
@@ -252,6 +252,14 @@ public class CommodityEntity {
 
 	public void setCommodityDecribe(String commodityDecribe) {
 		this.commodityDecribe = commodityDecribe;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 	
 }

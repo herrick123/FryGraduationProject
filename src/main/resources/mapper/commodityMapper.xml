@@ -7,21 +7,33 @@
 			a.UUID AS uuid,
 			a.PRODUCT_PICTURE AS productPicture,
 			a.COMMODITY_NAME AS commodityName,
+			a.COMMODITY_NUMBER AS commodityNumber,
+			a.CLASSIFICATION AS classification,
+			a.SIZE AS size,
+			a.COLOR AS color,
 			a.RELEASE_TIME AS releaseTime,
 			a.PRICE AS price,
 			a.USER_ID AS userId,
-			a.STAUS AS staus,
+			a.STATUS AS status,
 			b.DELIVERY_ADDRESS as deliveryAddress
 		FROM
 			COMMODITY a
 		LEFT JOIN FRY_USER b ON a.USER_ID = b.UUID
 		WHERE
 			1 = 1
-		AND a.USER_ID = #{userId}
+		<if test="userId != null">
+			AND a.USER_ID = #{userId}
+		</if>
 		<if test="commodityName != null">
 			AND a.COMMODITY_NAME like concat (concat ('%',#{commodityName}),'%')
 		</if>
+		<if test="commodityNumber != null">
+			AND a.COMMODITY_NUMBER like concat (concat ('%',#{commodityNumber}),'%')
+		</if>
+		<if test="status != null">
+			AND a.STATUS = #{status}
+		</if>
 		ORDER BY
-			STAUS DESC
+			STATUS DESC
 	</select>
 </mapper>
