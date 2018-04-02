@@ -37,7 +37,6 @@ public class FryUserController {
 	private static String USER_ADD_PAGE = "/user/addUser";//新增用户页面
 	private static String USER_EDIT_PAGE = "/user/editUser";//编辑用户页面
 	private static String USER_EDIT_PASSWORD_PAGE = "/user/editPasswordUser";//编辑用户密码页面
-	private static String USER_DET_PAGE = "/user/userDetails";//用户详情页面
 	
 	@Autowired
 	private FryUserService fryUserService;
@@ -138,17 +137,20 @@ public class FryUserController {
 	 * @param user
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping(value="/save", method = RequestMethod.POST)
 	public String saveFryUserEntity(Model model,FryUserEntity user){
 		MisLog.info(log, "存储新增用户！");
+		JSONObject json = JSONObject.parseObject("{}");
+		json.put("returncode", GlobalCodeConstant.BASE_SUCCESS_CODE);
 		try {
 			fryUserService.saveFryUserEntity(user);
 		} catch (SaveException e) {
 			MisLog.error(log, e.getMessage());
-			model.addAttribute("error", "新增用户出错！");
-			return "/exception";
+			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
+			json.put("info", "新增用户出错！");
 		}
-		return "redirect:/user/index";
+		return json.toJSONString();
 	}
 	
 	/**
@@ -233,17 +235,6 @@ public class FryUserController {
 			json.put("returncode", GlobalCodeConstant.BASE_ERROR_CODE);
 		}
 		return json.toJSONString();
-	}
-	
-	 /**
-     * 用户详情页面
-     */
-    @RequestMapping(value="/details",method = RequestMethod.GET)
-	public String FryUserDetails(Model model, String id){
-		FryUserEntity user = fryUserService.findFryUserEntityInfo(id);
-		model.addAttribute("user", user);
-		
-		return USER_DET_PAGE;
 	}
     
 	/**

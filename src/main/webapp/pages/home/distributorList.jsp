@@ -5,47 +5,16 @@
     <%@ include file="/pages/inc/header.jsp"%>
     <%@ include file="/pages/inc/delModal.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>项目管理</title>
-    <style>
-        td {
-            white-space:nowrap;
-            overflow:hidden;
-            text-overflow: ellipsis;
-            border: 0px solid #ddd !important;
-            border-top:1px solid #ddd !important;
-        }
-        th{
-       		 border: 0px solid #ddd !important;
-        }
-
-        table {
-            table-layout:fixed;	
-        }
-
-    </style>
+    <title>代发管理</title>
 </head>
 <body>
-<div class="sodb-page-home">
-    <ul class="sodb-page-ul">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="#">白沟箱包网</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li><a href="#">商家产品</a>
-        	<i class="fa fa-angle-right"></i>
-        </li>
-        <li><a href="#">产品列表</a></li>
-    </ul>
-</div>
 <div class="row" style="margin:0px;">
     <div class="col-md-12">
-    <input type="hidden" id="userUuid" value="${uuid}">
         <form class="form-inline">
             <div class="form-group" style="line-height: 50px;margin-top: 10px">
-               <input type="text" class="form-control" id="commodityName" placeholder="请输入产品名称">
+               <input type="text" class="form-control" id="area" placeholder="请输入代发区域">
             </div>
-            <button type="button" id="searchBtn" class="sbtn sbtn-blue" style="margin-left: 15px;margin-top: 10px;background-color: #53bee6;border: 0px;">查询</button>
+            <button type="button" id="searchBtn" class="sbtn sbtn-blue" style="margin-left: 15px;margin-top: 10px;border: 0px;">查询</button>
         </form>
         <div id="schoolDataList" class="dlshouwen-grid-container" style="margin-top: 10px"></div>
         <div id="schoolPage" class="dlshouwen-grid-toolbar-container"></div>
@@ -61,81 +30,87 @@
             hide : true 
         },
         {
-            id : 'productPicture',
-            title : '产品首图',
+            id : 'userName',
+            title : '用户名',
             type : 'string',
             columnClass : 'text-center',
-            resolution : function(value, record, column, grid, dataNo, columnNo){
+            resolution : function(value, record, column, grid, dataNo, columnNo) {
             	var content='';
-            	content +='<img src="<c:url value="/'+record.productPicture+'" />" style="width:180px;height:160px;">';
-            	
-            	console.log(record.productPicture);
-				return content;
-            } 
-        
-        },
-        {
-            id : 'commodityName',
-            title : '产品名称',
-            type : 'string',
-            columnClass : 'text-center',
-           	resolution : function(value, record, column, grid, dataNo, columnNo){
-                	var content='';
-                	content +='<a style="font-family: Microsoft Yahei;font-weight: bold;text-decoration:none;"  href="<c:url value="/commodity/commodityMessage/" />/'
-						+ record.uuid +'">' + record.commodityName + '</a>';
-                	return content;
+            	content +='<span style="font-family: fantasy;font-size: 18px"></span><span >'+record.userName+'</span>';
+            	return content;
+			}
 
-                } 
         },
-    
         {
-            id : 'price',
-            title : '¥价格',
-            width:160,
+            id : 'area',
+            title : '代发区域',
+            type : 'string',
+            columnClass : 'text-center',
+            resolution : function(value, record, column, grid, dataNo, columnNo) {
+            	var content='';
+            	content +='<span style="font-family: fantasy;font-size: 18px"></span><span >'+record.area+'</span>';
+            	return content;
+			}
+        },
+        {
+            id : 'contacts',
+            title : '联系人',
             type : 'string',
             columnClass : 'text-center',
             resolution : function(value, record, column, grid, dataNo, columnNo){
             	var content='';
-            	content +='<span style="font-family: fantasy;font-size: 18px">¥</span><span style="color:red;font-family: fantasy;font-size: 28px">'+record.price+'</span>';
+            	content +='<span style="font-family: fantasy;font-size: 18px"></span><span >'+record.contacts+'</span>';
             	return content;
 
             } 
         },
-
         {
-            id : 'releaseTime',
-            title : '发布时间',
-            type : 'date',
-            width:160,
-            format:'yyyy-MM-dd',
-            otype:'time_stamp_ms',
+            id : 'qq',
+            title : '联系QQ',
+            type : 'string',
+            columnClass : 'text-center',
+            resolution : function(value, record, column, grid, dataNo, columnNo){
+            	var content='';
+            	content +='<span style="font-family: fantasy;font-size: 18px"></span><span >'+record.qq+'</span>';
+            	return content;
+
+            } 
+        },
+        {
+            id : 'phone',
+            title : '联系电话',
+            type : 'string',
+            columnClass : 'text-center',
+            resolution : function(value, record, column, grid, dataNo, columnNo){
+            	var content='';
+            	content +='<span style="font-family: fantasy;font-size: 18px"></span><span >'+record.phone+'</span>';
+            	return content;
+
+            } 
+        },
+        {
+            id : 'serviceCharge',
+            title : '服务费',
+            type : 'string',
+            columnClass : 'text-center',
+        },{
+            id : 'alipay',
+            title : '支付宝',
+            type : 'string',
+            columnClass : 'text-center',
+        },{
+            id : 'bond',
+            title : '保证金',
+            type : 'string',
             columnClass : 'text-center',
         },
-		{
-			id : 'staus',
-			title : '状态',
-			type : 'string',
-			width:160,
-			columnClass : 'text-center',
-			resolution : function(value, record, column, grid, dataNo, columnNo) {
-				var content = '';
-				if(record.staus == '1'){
-					content += '<span style="color: green;font-weight: bold;font-family: Microsoft Yahei;font-size:16px">' +'销售中'+ '</span>';
-				}
-				else if (record.staus == '0'){
-					content += '<span style="color: #a1a1a1;font-weight: bold;font-family: Microsoft Yahei;font-size:16px">' +'已下架'+ '</span>';
-				}
-				console.log(record.status);
-				return content;
-			}
-		}
 		
     ];
-    var uuid = $("#userUuid").val();
+
     var areaOption = {
         lang : 'zh-cn',
         ajaxLoad : true,
-        loadURL : '<c:url value="/commodity/pageUserCommodity/" />'+uuid,
+        loadURL : '<c:url value="/home/firmListpages" />',
         columns : appColumns,
         gridContainer : 'schoolDataList',
         toolbarContainer : 'schoolPage',
@@ -150,12 +125,14 @@
 	
     function searchData() {
         areaGrid.parameters = new Object();
-        areaGrid.parameters['commodityName'] = $("#commodityName").val();
+        areaGrid.parameters['role'] = "3";
+        areaGrid.parameters['area'] = $("#area").val();
         areaGrid.refresh(true);
     }
     $(function() {
-    	
         $('#searchBtn').click(searchData);
+        areaGrid.parameters = new Object();
+        areaGrid.parameters['role'] = "3";
         areaGrid.load();
     });
 

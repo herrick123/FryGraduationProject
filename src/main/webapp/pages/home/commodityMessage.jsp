@@ -31,7 +31,7 @@
 </script>
 </head>
 <body style="overflow-x: hidden;overflow-y:hidden;">
-<div class="row" style="margin:0px;scrolling : no;overflow-y:hidden;">
+<div class="row" style="margin:0px;">
 	<div class="col-md-12">
 		<div class="col-md-6">
 			<h1 style="padding-top: 5%;font-weight: bold;font-size: 60px;">${userEntity.address}</h1>
@@ -58,7 +58,7 @@
 		
 		 <input type="hidden" value="${commodityEntity.uploadCompression}" id="files"/>
 		 <input type="hidden" id="commodityEntityUuid" value="${commodityEntity.uuid}" />
-		  <input type="hidden" id="noUserr" value="${noUser}" />
+		 <input type="hidden" id="noUserr" value="${noUser}" />
 		<div class="col-md-6" id="messageI" style="padding-top:1.1%;margin-left: -7%">
 		<div class="tabbable" id="tabs-975144" style="">
 				<ul class="nav nav-tabs">
@@ -156,20 +156,20 @@
 function downloadFile() {
 	var noUser = $("#noUserr").val();
 	if(noUser == "0"){
-		alert("请先登录再进行下载");
+		showMsg("请先登录再进行下载");
 	}else{
 		var uuid = $("#commodityEntityUuid").val();
 		var filename = $("#files").val();
-		window.open("<c:url value='/commodity/download' />?filename="+filename);
+		window.open("<c:url value='/home/download' />?filename="+filename);
 		$.ajax({
-	        url : "<c:url value='/commodity/downloadRecord'/>?uuid="+uuid,
+	        url : "<c:url value='/home/downloadRecord'/>?uuid="+uuid,
 	        type : "POST",
 	        dataType : "json",
 	        success : function(data, textStatus) {
 	        	window.location.reload();
 	        },
 	        error : function() {
-	            showMsg('11111');
+	        	showMsg('系统暂不可用，请稍后再试！');
 	        }
 	    }); 
 	}

@@ -29,18 +29,18 @@
 	<div id="sodb-home-top" class="sodb_head">
 		<div class="sodb-menu-context">
 			<div class="sodb-menu-context-list sodb-menu-bk" 
-				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/pages">
-				<div class="sodb-menu-context-top sodb-menu-context-top-home">&nbsp;</div>
+				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/home/page">
+				<div class="sodb-menu-context-top sodb-menu-context-top-bag">&nbsp;</div>
 				<div class="sodb-menu-context-bottom">箱包货源</div>
 			</div>
 			<div class="sodb-menu-context-list "
-				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/pageFirmList">
-				<div class="sodb-menu-context-top sodb-menu-context-top-situation">&nbsp;</div>
+				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/home/pageFirmList">
+				<div class="sodb-menu-context-top sodb-menu-context-top-list">&nbsp;</div>
 				<div class="sodb-menu-context-bottom">网供列表</div>
 			</div>
 			<div class="sodb-menu-context-list"
-				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/pages/aass.jsp">
-				<div class="sodb-menu-context-top sodb-menu-context-top-data">&nbsp;</div>
+				onclick="javascript:switchFrame(this);" menu-url="<%=path%>/home/distributorPage">
+				<div class="sodb-menu-context-top sodb-menu-context-top-daifa">&nbsp;</div>
 				<div class="sodb-menu-context-bottom">代发服务</div>
 			</div>
 			<c:if test="${empty loginUser}">
@@ -52,15 +52,17 @@
 			</c:if>
 			<c:if test="${!empty loginUser}">
 				<div class="sodb-menu-context-list" left-menu="menu-manage">
-					<div class="sodb-menu-context-top sodb-menu-context-top-resources">&nbsp;</div>
+					<div class="sodb-menu-context-top sodb-menu-context-top-manage">&nbsp;</div>
 					<div class="sodb-menu-context-bottom">管理中心</div>
 				</div>
 			</c:if>
 		</div>
 		<c:if test="${!empty loginUser}">
 			<div class="sodb-menu-top-right-area">
-				<span class="sodb-menu-top-right-area-user">${loginUser.userName}，您好！</span> <span
-					id="exitSys" class="sodb-menu-top-right-area-exit">退出</span>
+				<span class="sodb-menu-top-right-area-user">${loginUser.userName}，您好！&nbsp;
+					(<c:if test="${loginUser.userStatus == 0 }">未认证</c:if><c:if test="${loginUser.userStatus == 1 }">已认证</c:if>)
+				</span>
+				<span id="exitSys" class="sodb-menu-top-right-area-exit">退出</span>
 			</div>
 		</c:if>
 		<c:if test="${empty loginUser}">
@@ -70,7 +72,7 @@
 		</c:if>
 	</div>
 	<div id="sodb-index-area" class="sodb-index-home" style=" height:auto;background-color: white;!important">
-	    <iframe id="homeIframe" src="<%=path %>/commodity/pages" style="width:100%;border:0px;overflow-x: hidden;overflow-y:hidden;height:auto;margin-left:4%;scrolling : no"></iframe>
+	    <iframe id="homeIframe" src="<%=path %>/home/page" style="width:100%;border:0px;overflow-x: hidden;height:auto"></iframe>
 	</div> 
 	<div id="sodb-context-area" style="display: none;">
 		<aside id="left-panel" class="icon-not"> 
@@ -85,10 +87,10 @@
 				<!-- 管理员 end-->
 				<!-- 淘宝店家  start-->
 				<c:if test="${loginUser.role == 1 }">
-					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>">
+					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/commodity/downloadPage">
 						<i class="fa fa-lg fa-fw fa-table"></i><span class="menu-item-parent">图片包</span></a>
 					</li>
-					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>">
+					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/order/page">
 						<i class="fa fa-lg fa-fw fa-table"></i><span class="menu-item-parent">订单管理</span></a>
 					</li>	
 				</c:if>	
@@ -110,7 +112,7 @@
 				<!-- 供货厂家 end -->
 				<!-- 代发厂家 start-->
 				<c:if test="${loginUser.role == 3 }">
-					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>">
+					<li><a onclick="javascript:switchFrame(this);" menu-url="<%=path%>/order/audit">
 						<i class="fa fa-lg fa-fw fa-table"></i><span class="menu-item-parent">代发管理</span></a>
 					</li>	
 				</c:if>	

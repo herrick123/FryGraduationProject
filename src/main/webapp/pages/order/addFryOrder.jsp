@@ -26,6 +26,15 @@
 	}
 </style>
 <body>
+	<div class="sodb-page-home">
+		<ul class="sodb-page-ul">
+			<li><i class="fa fa-home"></i> <a href="#">白沟箱包</a> <i
+				class="fa fa-angle-right"></i></li>
+			<li><a href="#">管理中心</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">订单管理</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">创建订单</a></li>
+		</ul>
+	</div>
 	<h3 style="font-weight:border;margin: 20px;" align="center">创建订单</h3>
 	<div class="row" style="margin-top: 30px;margin-left: -12%">
 		<div class="col-md-3"></div>
@@ -44,11 +53,66 @@
 				</thead>
 				<tbody id="commodityOrder"></tbody>
 			</table>
-			
 		</div>
 		<div class="col-md-2">
 			<button type="button" id="addBtn" class="sbtn sbtn-default">新增商品</button>
 		</div>
+	</div>
+	<div class="row" style="margin-top: 30px;margin-left: -12%">
+		<div class="col-md-3"></div>
+		<div class="col-md-7" style="padding: 0;">
+			<form class="form-inline" style="margin-left: 20px;" id="fryOrder" 
+				action="<c:url value='/order/save' />" method="post">
+				<div id="commodityOrderForm"></div>
+				<div style="margin: 0 0 20px 0;font-size: 18px;" align="left">
+					<strong>填写收件人物流信息</strong>
+				</div>
+				<div class="form-group">
+					收件人：<input type="text" class="form-control" id="addressee" name="addressee" placeholder="收件人">
+				</div>
+				<div class="form-group"  style="margin-left: 10px;">
+					电话：<input type="text" class="form-control" id="telephone" name="telephone" placeholder="联系电话">
+				</div>
+				</br>
+				<div class="form-group"  style="margin-top: 10px;">
+					代发商：<select class="form-control" id="distributorId" name="distributorId">
+							<option value="">请选择代发商</option>
+							<c:forEach var="user" items="${userList }" >
+								<option value="${ user.uuid}">${ user.userName}</option>
+							</c:forEach>
+						</select>
+				</div>
+				<div class="form-group"  style="margin-left: 10px;margin-top: 10px;">
+					物流：<select class="form-control" id="logistics" name="logistics">
+							<option value="中通快递">中通快递</option>
+							<option value="顺丰快递">顺丰快递</option>
+							<option value="韵达快递">韵达快递</option>
+							<option value="EMS">EMS</option>
+							<option value="邮政快递">邮政快递</option>
+						</select>
+				</div>
+				<div style="margin: 20px 0 20px 0;font-size: 18px;" align="left">
+					<strong>收货地址</strong>
+				</div>
+				<div class="form-group col-md-12" style="padding: 0;">
+					详细地址：
+						<input type="text" class="form-control" placeholder="请填写详细地址"  
+							style="width:90%;" name="receiveAddress" id="receiveAddress" />
+				</div></br>
+				<div class="form-group col-md-12" style="padding: 0;margin-top: 15px;">
+					订单备注：
+						<input type="text" class="form-control" placeholder="请填写订单备注"  
+							style="width:90%;" name="remark" id="remark" />
+				</div>
+			</form>
+			<div style="text-align: center; margin-top: 120px;">
+				<button id="subBtn" type="button" class="sbtn sbtn-blue">
+				<i class="icon-right fa fa-send"></i>提交</button>
+				<button style="margin-left: 45px;" type="button" id="backBtn" class="sbtn sbtn-default">
+				<i class="icon-right fa fa-reply"></i>返回</button>
+			</div>
+		</div>
+		<div class="col-md-2"></div>
 	</div>
 	<!-- 选择商品-->
 	<div class="modal" id="addCommodityModal" role="dialog" aria-hidden="true">
@@ -206,33 +270,41 @@
 		commodityGrid.parameters['status'] = "1";
 		commodityGrid.refresh(true);
 	}
-	function reduce(e){
-		var number = $(e).next().val() * 1;
-		if(number > 1){
-			number = number * 1 - 1; 
-		}
-		$(e).next().val(number);
-	}
-	function plus(e){
-		var number = $(e).prev().val() * 1;
-		if(number < 100){
-			number = number * 1 + 1; 
-		}
-		$(e).prev().val(number);
-	}
 	$(function(){
 		commodityGrid.parameters = new Object();
 		commodityGrid.parameters['status'] = "1";
 		commodityGrid.load(); 
 	});
+	$("body").on("click", ".td-right-span", function(){
+		var id = $(this).parent().prop("id");
+		var index = id.substring(3, id.length);
+		var number = $(this).prev().val() * 1;
+		if(number < 100){
+			number = number * 1 + 1; 
+		}
+		$(this).prev().val(number);
+		commodityEntity[index].number = number;
+	})
+	$("body").on("click", ".td-left-span", function(){
+		var id = $(this).parent().prop("id");
+		var index = id.substring(3, id.length);
+		var number = $(this).next().val() * 1;
+		if(number > 1){
+			number = number * 1 - 1; 
+		}
+		$(this).next().val(number);
+		commodityEntity[index].number = number;
+	})
 	$("#addBtn").click(function(){
 		$("#addCommodityModal").modal();
 	});
 	$("#toAddCommodity").click(function(){
-		console.log(commodityEntity.length);
 		console.log(commodityEntity);
+		$("#commodityOrder").html("");
 		for(var i = 0; i < commodityEntity.length; i++){
-			console.log(commodityEntity[i].number);
+			if(typeof(commodityEntity[i].number) == "undefined"){
+				commodityEntity[i].number = 1;
+			}
 			var strVar = "";
 		    strVar += "<tr>";
 		    strVar += "<td>" + commodityEntity[i].commodityName + "<\/td>";
@@ -241,14 +313,30 @@
 		    strVar += "<td>" + commodityEntity[i].size + "<\/td>";
 		    strVar += "<td>￥" + commodityEntity[i].price + "<\/td>";
 		    strVar += "<td>" + commodityEntity[i].deliveryAddress + "<\/td>";
-		    strVar += "<td>";
-		    strVar += "<span class=\"glyphicon glyphicon-minus td-left-span\" onclick=\"reduce(this)\"><\/span>";
-		    strVar += "<input value=\"\" name=\"number\" class=\"form-control td-input\" readonly=\"readonly\"/>";
-		    strVar += "<span class=\"glyphicon glyphicon-plus td-right-span\" onclick=\"plus(this)\"><\/span>";
+		    strVar += "<td id=\"td_" + i + "\">";
+		    strVar += "<span class=\"glyphicon glyphicon-minus td-left-span\"><\/span>";
+		    strVar += "<input value=\"" + commodityEntity[i].number + "\" name=\"count\" class=\"form-control td-input\" readonly=\"readonly\"/>";
+		    strVar += "<span class=\"glyphicon glyphicon-plus td-right-span\"><\/span>";
 		    strVar += "<\/td>";
 		    strVar += "<\/tr>";
 		    $("#commodityOrder").append(strVar);
 		}
+	});
+	$("#subBtn").click(function(){
+		if($("#addressee").val() == "" || $("#telephone").val() == "" || $("#logistics").val() == "" || 
+				$("#receiveAddress").val() == "" || $("#remark").val() == "" || 
+				$("#distributorId").val() == "" || commodityEntity.length == 0){
+			showMsg("请完整填写订单信息^_^");
+			return ;
+		}
+		$("#commodityOrderForm").html("");
+		for(var i = 0; i < commodityEntity.length; i++){
+		    var html = "";
+		    html += "<input type=\"hidden\" name=\"commodityId\" value=\"" + commodityEntity[i].uuid + "\">";
+		    html += "<input type=\"hidden\" name=\"number\" value=\"" + commodityEntity[i].number + "\">";
+		    $("#commodityOrderForm").append(html);
+		}
+		$("#fryOrder").submit();
 	});
 </script>
 </html>

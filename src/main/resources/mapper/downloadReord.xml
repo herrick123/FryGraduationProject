@@ -4,14 +4,34 @@
 <select id="search_commodityId_downloadRecordEntity_info" parameterType="java.util.Map" resultType="com.self.commodity.entity.DownloadRecordEntity" >
 	SELECT
 		a.UUID as uuid,
+		a.COMMODITY_id as commodityId,
 		a.USER_ID as userId,
 		a.CREATE_TIME as createTime,
 		a.ACCESS as access,
-		a.USER_NAME as userName
+		a.USER_NAME as userName,
+		b.PRODUCT_PICTURE AS productPicture,
+		b.COMMODITY_NAME AS commodityName,
+		b.COMMODITY_NUMBER AS commodityNumber,
+		b.CLASSIFICATION AS classification,
+		b.SIZE AS size,
+		b.COLOR AS color,
+		b.PRICE AS price,
+		b.STATUS AS status
 	FROM
 		DOWNLOAD_RECORD a
+	LEFT JOIN COMMODITY b ON a.COMMODITY_id = b.UUID
 	WHERE
 		1=1
-		AND a.COMMODITY_id = #{commodityId}
+		<if test="commodityId != null">
+			AND a.COMMODITY_id = #{commodityId}
+		</if>
+		<if test="userId != null">
+			AND a.USER_ID = #{userId}
+		</if>
+		<if test="commodityName != null">
+			AND b.COMMODITY_NAME = #{commodityName}
+		</if>
+	ORDER BY
+		a.CREATE_TIME DESC
 </select>
 </mapper>

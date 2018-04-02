@@ -4,7 +4,7 @@
 <html>
 <head>
 <%@ include file="/pages/inc/header.jsp"%>
-<title>凡客</title>
+<title>箱包货源</title>
 <meta name="" content=""/>
 <link rel="stylesheet" type="text/css"
 	href="<%=path%>/css/indexII.css" />
@@ -40,15 +40,12 @@ li{float:left;list-style:none;}
 			</ul>
 </body>
 <script type="text/javascript">
-function asd(){
-	alert("11");
-}
 function commodityMessage(uuid){
 	/* var index = $(e).index();
 	alert(index);
 	var uuid = $(".comoodityUuid").eq(index).val();
 	alert(uuid); */
-	window.location.href = '<c:url value="/commodity/commodityMessage/" />' + uuid;
+	window.location.href = '<c:url value="/home/commodityMessage/" />' + uuid;
 }
 </script>
 </html>

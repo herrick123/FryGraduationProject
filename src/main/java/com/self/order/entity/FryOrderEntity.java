@@ -1,10 +1,14 @@
 package com.self.order.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.self.commodity.entity.CommodityEntity;
 
 @Table(name = "FRY_ORDER")
 public class FryOrderEntity {
@@ -20,6 +24,30 @@ public class FryOrderEntity {
 	 */
 	@Column(name = "USER_ID")
 	private String userId;
+	
+	/**
+	 * 代发商ID
+	 */
+	@Column(name = "DISTRIBUTOR_ID")
+	private String distributorId;
+	
+	/**
+	 * 代发商姓名
+	 */
+	@Transient
+	private String distributorName;
+	
+	/**
+	 * 代发商服务费
+	 */
+	@Transient
+	private String serviceCharge;
+	
+	/**
+	 * 代发商支付宝账号
+	 */
+	@Transient
+	private String alipay;
 	
 	/**
 	 * 收件人
@@ -52,6 +80,12 @@ public class FryOrderEntity {
 	private String remark;
 	
 	/**
+	 * 转账记录
+	 */
+	@Column(name = "ALIPAY_RECORD")
+	private String alipayRecord;
+	
+	/**
 	 * 状态
 	 */
 	@Column(name = "STATUS")
@@ -63,6 +97,12 @@ public class FryOrderEntity {
 	@Column(name = "CREATE_TIME")
 	private Timestamp createTime;
 
+	/**
+	 * 商品列表
+	 */
+	@Transient
+	List<CommodityEntity> commodityList; 
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -77,6 +117,14 @@ public class FryOrderEntity {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(String distributorId) {
+		this.distributorId = distributorId;
 	}
 
 	public String getAddressee() {
@@ -134,4 +182,45 @@ public class FryOrderEntity {
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
+
+	public String getDistributorName() {
+		return distributorName;
+	}
+
+	public void setDistributorName(String distributorName) {
+		this.distributorName = distributorName;
+	}
+
+	public String getServiceCharge() {
+		return serviceCharge;
+	}
+
+	public void setServiceCharge(String serviceCharge) {
+		this.serviceCharge = serviceCharge;
+	}
+
+	public List<CommodityEntity> getCommodityList() {
+		return commodityList;
+	}
+
+	public void setCommodityList(List<CommodityEntity> commodityList) {
+		this.commodityList = commodityList;
+	}
+
+	public String getAlipay() {
+		return alipay;
+	}
+
+	public void setAlipay(String alipay) {
+		this.alipay = alipay;
+	}
+
+	public String getAlipayRecord() {
+		return alipayRecord;
+	}
+
+	public void setAlipayRecord(String alipayRecord) {
+		this.alipayRecord = alipayRecord;
+	}
+	
 }

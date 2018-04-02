@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fryOrder">
+	<select id="findFryOrderList"
+		parameterType="com.self.order.entity.FryOrderEntity" resultType="com.self.order.entity.FryOrderEntity">
+		SELECT
+			T1.UUID AS uuid,
+			T1.USER_ID AS userId,
+			T1.DISTRIBUTOR_ID AS distributorId,
+			T2.USER_NAME AS distributorName,
+			T2.SERVICE_CHARGE AS serviceCharge,
+			T2.ALIPAY AS alipay,
+			T1.ADDRESSEE AS addressee,
+			T1.TELEPHONE AS telephone,
+			T1.LOGISTICS AS logistics,
+			T1.RECEIVE_ADDRESS AS receiveAddress,
+			T1.REMARK AS remark,
+			T1.ALIPAY_RECORD AS alipayRecord,
+			T1.STATUS AS status,
+			T1.CREATE_TIME AS createTime
+		FROM
+			FRY_ORDER T1
+		LEFT JOIN FRY_USER T2 ON T1.DISTRIBUTOR_ID = T2.UUID
+		WHERE
+			1=1
+			<if test="userId != null">
+				AND T1.USER_ID = #{userId}
+			</if>
+			<if test="distributorId != null">
+				AND T1.DISTRIBUTOR_ID = #{distributorId}
+			</if>
+			<if test="status != null">
+				AND T1.STATUS = #{status}
+			</if>
+		ORDER BY
+			T1.CREATE_TIME DESC
+	</select>
+	<select id="findCommodityListByOrderId"
+		parameterType="java.lang.String" resultType="com.self.commodity.entity.CommodityEntity">
+		SELECT
+			T1.UUID AS uuid,
+			T1.PRODUCT_PICTURE AS productPicture,
+			T1.COMMODITY_NUMBER AS commodityNumber,
+			T1.COMMODITY_NAME AS commodityName,
+			T1.SIZE AS size,
+			T1.COLOR AS color,
+			T1.PRICE AS price,
+			T2.NUMBER AS number
+		FROM
+			COMMODITY T1
+		LEFT JOIN COMMODITY_ORDER T2 ON T2.COMMODITY_ID = T1.UUID
+		WHERE
+			T2.ORDER_ID = #{orderId}
+	</select>
+</mapper>

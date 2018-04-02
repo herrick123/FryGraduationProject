@@ -38,8 +38,38 @@ public class FryUserServiceImpl implements FryUserService {
 		if(StringUtils.isNotEmpty(user.getAddress())){
 			criteria.andLike("address", "%" + user.getAddress() + "%");
 		}
+		if(StringUtils.isNotEmpty(user.getArea())){
+			criteria.andLike("area", "%" + user.getArea() + "%");
+		}
+		if(StringUtils.isNotEmpty(user.getUserStatus())){
+			criteria.andEqualTo("userStatus", user.getUserStatus());
+		}
 		PageHelper.startPage(page.getNowPage(),page.getPageSize());
 		
+		return fryUsermapper.selectByCondition(example);
+	}
+	
+	/**
+	 * 查询用户
+	 * @param user
+	 * @return
+	 */
+	@Override
+	public List<FryUserEntity> findFryUserList(FryUserEntity user) {
+		Example example = new Example(FryUserEntity.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotEmpty(user.getUserName())){
+			criteria.andLike("userName", "%" + user.getUserName() + "%");
+		}
+		if(StringUtils.isNotEmpty(user.getRole())){
+			criteria.andEqualTo("role", user.getRole());
+		}
+		if(StringUtils.isNotEmpty(user.getAddress())){
+			criteria.andLike("address", "%" + user.getAddress() + "%");
+		}
+		if(StringUtils.isNotEmpty(user.getUserStatus())){
+			criteria.andEqualTo("userStatus", user.getUserStatus());
+		}
 		return fryUsermapper.selectByCondition(example);
 	}
 	

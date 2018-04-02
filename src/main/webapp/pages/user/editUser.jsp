@@ -8,6 +8,15 @@
 <title>用户个人信息修改</title>
 </head>
 <body>
+	<div class="sodb-page-home">
+		<ul class="sodb-page-ul">
+			<li><i class="fa fa-home"></i> <a href="#">白沟箱包</a> <i
+				class="fa fa-angle-right"></i></li>
+			<li><a href="#">管理中心</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">资料管理</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">个人资料</a></li>
+		</ul>
+	</div>
 	<form name="userForm" class="form-horizontal" id="userForm"
 		action="<c:url value='/user/update' />" method="post">
 		<input type="hidden" id="uuid" name="uuid" value="${user.uuid }"/>

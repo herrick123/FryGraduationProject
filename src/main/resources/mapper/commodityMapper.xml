@@ -34,6 +34,6 @@
 			AND a.STATUS = #{status}
 		</if>
 		ORDER BY
-			STATUS DESC
+			STATUS DESC, RELEASE_TIME DESC
 	</select>
 </mapper>

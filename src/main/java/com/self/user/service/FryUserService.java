@@ -16,6 +16,13 @@ public interface FryUserService {
 	 * @return
 	 */
 	public List<FryUserEntity> findFryUserPage(FryUserEntity user, Page<FryUserEntity> page);
+	
+	/**
+	 * 查询用户
+	 * @param user
+	 * @return
+	 */
+	public List<FryUserEntity> findFryUserList(FryUserEntity user);
 
 	/**
 	 * 存储新增用户

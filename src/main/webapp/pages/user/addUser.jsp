@@ -282,7 +282,25 @@
 			return;
 		}
 		$.fn.dlshouwen.validator.tools.toast('验证通过！', 'success', 3000);
-		document.getElementById("userForm").submit();
+		$.ajax({
+			type : "POST",
+			dataType : "json",
+			async : false,
+			url : '<c:url value="/user/save" />',
+            data: $('#userForm').serialize(),
+			success : function(data, textStatus) {
+				if (data.returncode == '200') {
+					parent.$(".sodb-menu-context-list").eq(0).click();
+				} else if (data.returncode == '10000') {
+					showMsg('注册失败！请联系开发人员！');
+				} else {
+					showMsg('注册失败！');
+				}						
+			},
+			error : function(data) {
+				showMsg('系统暂不可用，请稍后再试！');
+			}
+		});
 	}
 	$(function() {
 		validator_user = $.fn.dlshouwen.validator.init($('#userForm'), option_user);

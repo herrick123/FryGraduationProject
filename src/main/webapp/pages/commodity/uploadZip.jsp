@@ -39,9 +39,17 @@
 <body style="overflow-x: hidden;">
 	<div class="sodb-page-home">
 		<ul class="sodb-page-ul" style="margin-left: 3%">
-			<li><i class="fa fa-home"></i> <a href="#">白沟箱包网</a> <i
-				class="fa fa-angle-right"></i></li>
-			<li><a href="#">商家管理</a> <i class="fa fa-angle-right"></i></li>
+			 <li>
+	            <i class="fa fa-home"></i>
+	            <a href="#">白沟箱包网</a>
+	            <i class="fa fa-angle-right"></i>
+	        </li>
+	        <li><a href="#">管理中心</a>
+	        	<i class="fa fa-angle-right"></i>
+	        </li>
+	        <li><a href="#">产品管理</a>
+	        	<i class="fa fa-angle-right"></i>
+	        </li>
 			<li><a href="#">上传压缩包</a></li>
 		</ul>
 	</div>
@@ -59,20 +67,20 @@
 						<div class="portlet-body form">
 							<form id="form1" class="form-horizontal" role="form" action="<c:url value='/commodity/save' />"enctype="multipart/form-data" method="post">
 									<div class="form-body">
-										
 										<div class="form-group">
 											<label class="col-md-4 control-label">商品首图<span
 												class="required">* </span></label>
 											<div class="col-md-8">
 											     <div id="preview"></div>
-												 <input type="file" name="file" id="picturePath" onchange="preview(this)" />
+												 <input type="file" name="file" id="picturePath" 
+												 	onchange="preview(this)" accept="image/jpeg,image/png,image/gif"/>
 											</div>
 										</div> 
 										<div class="form-group">
 											<label class="col-md-4 control-label">上传压缩包<span
 												class="required">* </span></label>
 												<div class="col-md-4">
-												   <input type="file" name="fileTest" id="fileTest" multiple style="width: 300px;padding: 4px;"  />
+												   <input type="file" name="fileTest" id="fileTest"  multiple style="width: 300px;padding: 4px;"  />
 												    <input type="hidden" name="uploadCompression" id="prjDoc" />
 											      <!--   当前选择的文件列表 -->
 											        <span class="file-temp">
@@ -311,7 +319,6 @@ $(function () {
                         document.getElementById("form1").submit();
                     }else{
                         showMsg('添加失败！');
-                        showMsg('添加失败！');
                     }
                 },
                 error:function(data){
@@ -341,7 +348,6 @@ $(function() {
 	validator_release = $.fn.dlshouwen.validator.init($('#form1'));
 	// 上传操作
 	$('#uploadBtn').click(function() {
-		alert("11");
 		$('.upload-tip').hide();
 		// 构建FormData对象
 		var str = "";
@@ -363,7 +369,6 @@ $(function() {
 			processData: false,
 			contentType: false,
 			success: function(rs) {
-				alert(rs)
 				showMsg("文件上传成功");
 			},
 			error: function(err) {
@@ -382,18 +387,17 @@ function preview(file) {
     var suffix=fileName.substring(suffixIndex+1).toUpperCase(); 
 	if(suffix=="BMP"||suffix=="JPG"||suffix=="JPEG"||suffix=="PNG"||suffix=="GIF"){
 		if (file.files && file.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function(evt) {
-		prevDiv.innerHTML = '<img src="' + evt.target.result + '" style="width:150px" />';
-		}
-		reader.readAsDataURL(file.files[0]);
+			var reader = new FileReader();
+			reader.onload = function(evt) {
+				prevDiv.innerHTML = '<img src="' + evt.target.result + '" style="width:150px" />';
+			}
+			reader.readAsDataURL(file.files[0]);
 		} else {
-		prevDiv.innerHTML = '<div class="img" width="125" height="130"  style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+			prevDiv.innerHTML = '<div class="img" width="125" height="130"  style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
 		}
 	}else {
 		document.getElementById("picturePath").outerHTML = document.getElementById("picturePath").outerHTML;
 		showMsg("请上传图片（格式BMP、JPG、JPEG、PNG、GIF等）!");
-		
 	}
 }
 

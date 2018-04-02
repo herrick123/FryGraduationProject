@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,17 +87,23 @@ public class CommodityServiceImpl implements CommodityService {
 	 */
 	@Override
 	public List<FryUserEntity> findFirmList(FryUserEntity userEntity,Page<FryUserEntity> page){
-		userEntity.setRole("2");
+
 		List<FryUserEntity> result = fryUserService.findFryUserPage(userEntity, page);
 		
 		return result;
 	}
 	
-	
+	/**
+	 * 查询所有上架商品
+	 */
 	@Override
 	public List<CommodityEntity> findCommodity(CommodityEntity commodityEntity){
-		
-		return commodityMapper.selectAll();
+		Example example = new Example(CommodityEntity.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotEmpty(commodityEntity.getStatus())){
+			criteria.andEqualTo("status", commodityEntity.getStatus());
+		}
+		return commodityMapper.selectByCondition(example);
 	}
 	/**
 	 * 根据uuid查询产品
@@ -135,6 +142,8 @@ public class CommodityServiceImpl implements CommodityService {
 		Map<String,Object> param=new HashMap<String,Object>();
 		List<DownloadRecordEntity> result = null;
 		param.put("commodityId", downloadRecordEntity.getCommodityId());
+		param.put("userId", downloadRecordEntity.getUserId());
+		param.put("commodityName", downloadRecordEntity.getCommodityName());
 		result = sqlSession.selectList("com.downloadRecordEntity.search_commodityId_downloadRecordEntity_info", param);
 		return result;
 	}
@@ -157,6 +166,7 @@ public class CommodityServiceImpl implements CommodityService {
 		return result;
 		
 	}
+	
 	/**
 	 * 删除一件产品
 	 */
@@ -171,7 +181,6 @@ public class CommodityServiceImpl implements CommodityService {
 	/**
 	 * 修改一件产品
 	 */
-	
 	@Override
 	public Integer updataCommodity(CommodityEntity commodity) {
 		int result =GlobalCodeConstant.UPDATE_ERROR_CODE;

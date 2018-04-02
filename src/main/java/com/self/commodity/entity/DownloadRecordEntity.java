@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name="DOWNLOAD_RECORD")
 public class DownloadRecordEntity {
@@ -45,6 +46,54 @@ public class DownloadRecordEntity {
 	@Column(name="USER_NAME")
 	private String userName;
 	
+	/**
+	 * 商品主图
+	 */
+	@Transient
+	private String productPicture;
+	
+	/**
+	 * 商品货号
+	 */
+	@Transient
+	private String commodityNumber;
+	
+	/**
+	 * 商品名称
+	 */
+	@Transient
+	private String commodityName;
+	
+	/**
+	 * 分类
+	 */
+	@Transient
+	private String classification;
+	
+	/**
+	 * 大小（迷你、小、中、大）
+	 */
+	@Transient
+	private String size;
+	
+	/**
+	 * 价格
+	 */
+	@Transient
+	private String price;
+	
+	/**
+	 * 状态（0下架/1上架）
+	 */
+	@Transient
+	private String status;
+	
+	/**
+	 * 颜色
+	 */
+	@Transient
+	private String color;
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -81,4 +130,53 @@ public class DownloadRecordEntity {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	public String getProductPicture() {
+		return productPicture;
+	}
+	public void setProductPicture(String productPicture) {
+		this.productPicture = productPicture;
+	}
+	public String getCommodityNumber() {
+		return commodityNumber;
+	}
+	public void setCommodityNumber(String commodityNumber) {
+		this.commodityNumber = commodityNumber;
+	}
+	public String getCommodityName() {
+		return commodityName;
+	}
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 }

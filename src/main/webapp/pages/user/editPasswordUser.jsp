@@ -8,6 +8,15 @@
 <title>用户密码修改</title>
 </head>
 <body>
+	<div class="sodb-page-home">
+		<ul class="sodb-page-ul">
+			<li><i class="fa fa-home"></i> <a href="#">白沟箱包</a> <i
+				class="fa fa-angle-right"></i></li>
+			<li><a href="#">管理中心</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">资料管理</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">修改密码</a></li>
+		</ul>
+	</div>
 	<form name="userForm" class="form-horizontal" id="userForm"
 		action="<c:url value='/user/updatePassword' />" method="post">
 		<input type="hidden" id="uuid" name="uuid" value="${user.uuid }"/>

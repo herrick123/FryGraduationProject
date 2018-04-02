@@ -13,7 +13,7 @@
 		<ul class="sodb-page-ul">
 			<li><i class="fa fa-home"></i> <a href="#">白沟箱包</a> <i
 				class="fa fa-angle-right"></i></li>
-			<li><a href="#">系统管理</a> <i class="fa fa-angle-right"></i></li>
+			<li><a href="#">管理中心</a> <i class="fa fa-angle-right"></i></li>
 			<li><a href="#">用户管理</a></li>
 		</ul>
 	</div>

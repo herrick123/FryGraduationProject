@@ -5,7 +5,7 @@
     <%@ include file="/pages/inc/header.jsp"%>
     <%@ include file="/pages/inc/delModal.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>商品管理</title>
+    <title>项目管理</title>
     <style>
         td {
             white-space:nowrap;
@@ -25,32 +25,30 @@
     </style>
 </head>
 <body>
-<div class="sodb-page-home">
+<!-- <div class="sodb-page-home">
     <ul class="sodb-page-ul">
         <li>
             <i class="fa fa-home"></i>
             <a href="#">白沟箱包网</a>
             <i class="fa fa-angle-right"></i>
         </li>
-        <li><a href="#">管理中心</a>
-        	<i class="fa fa-angle-right"></i>
-        </li>
-        <li><a href="#">产品管理</a>
+        <li><a href="#">商家产品</a>
         	<i class="fa fa-angle-right"></i>
         </li>
         <li><a href="#">产品列表</a></li>
     </ul>
-</div>
+</div> -->
 <div class="row" style="margin:0px;">
     <div class="col-md-12">
+    <input type="hidden" id="userUuid" value="${uuid}">
         <form class="form-inline">
             <div class="form-group" style="line-height: 50px;margin-top: 10px">
                <input type="text" class="form-control" id="commodityName" placeholder="请输入产品名称">
             </div>
             <button type="button" id="searchBtn" class="sbtn sbtn-blue" style="margin-left: 15px;margin-top: 10px;background-color: #53bee6;border: 0px;">查询</button>
         </form>
-        <div id="schoolDataList" class="dlshouwen-grid-container" style="margin-top: 10px"></div>
-        <div id="schoolPage" class="dlshouwen-grid-toolbar-container"></div>
+        <div id="commodityDataList" class="dlshouwen-grid-container" style="margin-top: 10px"></div>
+        <div id="commodityPage" class="dlshouwen-grid-toolbar-container"></div>
     </div>
 </div>
 </body>
@@ -83,7 +81,7 @@
             columnClass : 'text-center',
            	resolution : function(value, record, column, grid, dataNo, columnNo){
                 	var content='';
-                	content +='<a style="font-family: Microsoft Yahei;font-weight: bold;text-decoration:none;"  href="<c:url value="#" />/'
+                	content +='<a style="font-family: Microsoft Yahei;font-weight: bold;text-decoration:none;"  href="<c:url value="/home/commodityMessage/" />/'
 						+ record.uuid +'">' + record.commodityName + '</a>';
                 	return content;
 
@@ -130,117 +128,32 @@
 				console.log(record.status);
 				return content;
 			}
-		}, 
-         {
-            id : 'operation',
-            title : '操作',
-            width:300,
-            type : 'string',
-            columnClass : 'text-center',
-            resolution : function(value, record, column, grid, dataNo,
-                                  columnNo) {
-                var content = '';
-                content += "<button class='sbtn sbtn-blue btn-sm' style='background-color: #ec6459;border: 0px;' id='editBtn' "
-                    + "onclick=editApp('"
-                    + record.uuid
-                    + "');>修改产品</button>";
-                content += '  ';
-                if(record.status == '1'){
-                	content += "<button class='sbtn sbtn-blue btn-sm' style='background-color: #39b2a9;border: 0px;' id='deleteOneBtn' "
-                    + "onclick=deleteApp('"
-                    + record.uuid
-                    + "');>下架</button>";
-                	return content;
-                }else if(record.status == '0'){
-                	content += "<button class='sbtn sbtn-blue btn-sm' style='background-color: #39b2a9;border: 0px;' id='deletesOneBtn' "
-                        + "onclick=deletesApp('"
-                        + record.uuid
-                        + "');>删除商品</button>";
-                	return content;
-                }
-             
-               
-               
-            }
-        } 
+		}
 		
     ];
-
-    var areaOption = {
+    var uuid = $("#userUuid").val();
+    var commodityOption = {
         lang : 'zh-cn',
         ajaxLoad : true,
-        loadURL : '<c:url value="/commodity/pageList" />',
+        loadURL : '<c:url value="/home/pageUserCommodity/" />'+uuid,
         columns : appColumns,
-        gridContainer : 'schoolDataList',
-        toolbarContainer : 'schoolPage',
+        gridContainer : 'commodityDataList',
+        toolbarContainer : 'commodityPage',
         tools : 'refresh',
-        check : true,
-        checkWidth : '27px',
         pageSize : 10,
         pageSizeLimit : [ 10, 20, 50, 100 ],
     };
 
-    var areaGrid = $.fn.dlshouwen.grid.init(areaOption);
+    var commodityGrid = $.fn.dlshouwen.grid.init(commodityOption);
 	
     function searchData() {
-        areaGrid.parameters = new Object();
-        areaGrid.parameters['commodityName'] = $("#commodityName").val();
-        areaGrid.refresh(true);
+        commodityGrid.parameters = new Object();
+        commodityGrid.parameters['commodityName'] = $("#commodityName").val();
+        commodityGrid.refresh(true);
     }
     $(function() {
         $('#searchBtn').click(searchData);
-        areaGrid.load();
+        commodityGrid.load();
     });
-
-    function editApp(uuid) {
-    	window.location.href = '<c:url value="/commodity/editCommodity/" />' + uuid;
-    } 
-
-
-    function deleteApp(uuid){
-        $("#delOneModel").modal();
-        $("#modalId").val(uuid);
-    }
-
-    $("#deleteOneBtn").click(function() {
-        uuid=$("#modalId").val();  
-        $.ajax({
-            url : "<c:url value='/commodity/deleteCommodity'/>?uuids=" + uuid,
-            type : "POST",
-            dataType : "json",
-            success : function(data, textStatus) {
-                if (data.returncode == '200') {
-                    window.location.reload();
-                } else {
-                    $('#delOneModel').modal('hide');
-                    showMsg('用户删除失败！请联系开发人员！');
-                }
-            },
-            error : function() {
-                $('#delOneModel').modal('hide');
-                showMsg('系统暂不可用，请稍后再试！');
-            }
-        });
-    });
-    function deletesApp(uuid){
-        $.ajax({
-            url : "<c:url value='/commodity/deletesCommodity'/>?uuids=" + uuid,
-            type : "POST",
-            dataType : "json",
-            success : function(data, textStatus) {
-                if (data.returncode == '200') {
-                    window.location.reload();
-                } else {
-                    $('#delOneModel').modal('hide');
-                    showMsg('用户删除失败！请联系开发人员！');
-                }
-            },
-            error : function() {
-                $('#delOneModel').modal('hide');
-                showMsg('系统暂不可用，请稍后再试！');
-            }
-        });
-    }
-
 
 </script>

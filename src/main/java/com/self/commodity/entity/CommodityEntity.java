@@ -117,7 +117,13 @@ public class CommodityEntity {
 	 */
 	@Transient
 	private String deliveryAddress;
-
+	
+	/**
+	 * 数量
+	 */
+	@Transient
+	private Integer number;
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -260,6 +266,14 @@ public class CommodityEntity {
 
 	public void setDeliveryAddress(String deliveryAddress) {
 		this.deliveryAddress = deliveryAddress;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 	
 }

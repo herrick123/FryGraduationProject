@@ -65,7 +65,8 @@
 												<div class="col-md-8">
 												    	<img id="productPictures" src="<c:url value="/${commodityEntity.productPicture}" />" style="width:180px;height:160px;">
 												     <div id="preview"></div>
-													 <input type="file" name="file" id=productPicture value="<c:out value='${commodityEntity.productPicture}' />" onchange="preview(this)" />
+													 <input type="file" name="file" id=productPicture value="<c:out value='${commodityEntity.productPicture}' />" 
+													 	 accept="image/jpeg,image/png,image/gif" onchange="preview(this)" />
 												</div>
 											</div>
 										<div class="form-group" id="uploadI" style="display: none">
@@ -314,7 +315,6 @@ $(function () {
         	var commodityName = $("#commodityName").val();
      	    var commodityNumber = $("#commodityNumber").val();
      	    var uuid = $("#uuid").val();
-     	    alert(uuid);
             $.ajax({
                 type:"POST",
                 dataType:"json",
@@ -361,7 +361,6 @@ $(function() {
 	validator_release = $.fn.dlshouwen.validator.init($('#form1'));
 	// 上传操作
 	$('#uploadBtn').click(function() {
-		alert("11");
 		$('.upload-tip').hide();
 		// 构建FormData对象
 		var str = "";
